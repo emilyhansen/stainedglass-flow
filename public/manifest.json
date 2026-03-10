@@ -1,0 +1,12 @@
+{
+  "name": "Glass Stash",
+  "short_name": "Glass Stash",
+  "description": "Stained glass studio organizer",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f9fafb",
+  "theme_color": "#0d9488",
+  "icons": [
+    { "src": "/vite.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
