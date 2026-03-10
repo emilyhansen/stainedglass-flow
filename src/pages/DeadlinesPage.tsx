@@ -31,7 +31,7 @@ export function DeadlinesPage() {
   const groups = [
     { label: 'Overdue',        labelColor: 'text-red-600',   projects: overdue   },
     { label: 'Due this week',  labelColor: 'text-amber-600', projects: thisWeek  },
-    { label: 'Due this month', labelColor: 'text-teal-700',  projects: thisMonth },
+    { label: 'Due this month', labelColor: 'text-violet-700',  projects: thisMonth },
     { label: 'Later',          labelColor: 'text-gray-600',  projects: later     },
   ].filter(g => g.projects.length > 0)
 
@@ -49,9 +49,9 @@ export function DeadlinesPage() {
       <Header count={withDeadline.length} />
 
       {groups.length === 0 ? (
-        <div className="bg-teal-50 rounded-2xl border border-teal-100 p-6 text-center mb-6">
-          <p className="text-teal-700 font-semibold">No upcoming deadlines</p>
-          <p className="text-sm text-teal-600 mt-1">Your active projects don't have due dates set yet.</p>
+        <div className="bg-violet-50 rounded-2xl border border-violet-100 p-6 text-center mb-6">
+          <p className="text-violet-700 font-semibold">No upcoming deadlines</p>
+          <p className="text-sm text-violet-600 mt-1">Your active projects don't have due dates set yet.</p>
         </div>
       ) : (
         <div className="space-y-7">
@@ -73,7 +73,7 @@ export function DeadlinesPage() {
           <h2 className="text-sm font-semibold text-gray-400 mb-3">No deadline set · {noDeadline.length}</h2>
           <div className="space-y-2">
             {noDeadline.map(project => (
-              <Link key={project.id} to="/projects" className="flex items-center gap-3 p-3 bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-teal-200 dark:hover:border-teal-700 transition-colors">
+              <Link key={project.id} to="/projects" className="flex items-center gap-3 p-3 bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-violet-200 dark:hover:border-violet-700 transition-colors">
                 <ProjectThumb project={project} />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gray-700 dark:text-gray-200 truncate">{project.name}</p>
@@ -93,7 +93,7 @@ function Header({ count }: { count: number }) {
   return (
     <div className="mb-6">
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-        <CalendarClock size={24} className="text-teal-600" />
+        <CalendarClock size={24} className="text-violet-600" />
         Deadlines
       </h1>
       <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -129,10 +129,10 @@ function DeadlineRow({ project, today }: { project: Project; today: Date }) {
   const urgencyColor =
     isOverdue        ? 'text-red-600'
     : daysLeft <= 7  ? 'text-amber-600'
-    :                  'text-teal-600'
+    :                  'text-violet-600'
 
   return (
-    <Link to="/projects" className="flex items-center gap-3 p-3 bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-teal-200 dark:hover:border-teal-700 transition-colors">
+    <Link to="/projects" className="flex items-center gap-3 p-3 bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-violet-200 dark:hover:border-violet-700 transition-colors">
       <ProjectThumb project={project} />
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{project.name}</p>

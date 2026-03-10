@@ -55,12 +55,12 @@ function GlassCard({
 }) {
   return (
     <div
-      className={`bg-white dark:bg-gray-900 rounded-2xl border shadow-sm hover:shadow-md transition-all cursor-pointer ${selected ? 'border-teal-400 ring-2 ring-teal-200' : 'border-gray-100 dark:border-gray-800 hover:border-teal-200 dark:hover:border-teal-700'}`}
+      className={`bg-white dark:bg-gray-900 rounded-2xl border shadow-sm hover:shadow-md transition-all cursor-pointer ${selected ? 'border-violet-400 ring-2 ring-violet-200' : 'border-gray-100 dark:border-gray-800 hover:border-violet-200 dark:hover:border-violet-700'}`}
       onClick={selectMode ? onToggleSelect : onClick}
     >
       {selectMode && (
         <div className="absolute top-2 left-2 z-10">
-          <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center ${selected ? 'bg-teal-500 border-teal-500' : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600'}`}>
+          <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center ${selected ? 'bg-violet-500 border-violet-500' : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600'}`}>
             {selected && <svg viewBox="0 0 10 10" className="w-3 h-3 text-white fill-none stroke-current stroke-2"><polyline points="1.5,5 4,8 8.5,2" /></svg>}
           </div>
         </div>
@@ -86,7 +86,7 @@ function GlassCard({
         {item.colorCode && <p className="text-xs text-gray-400 dark:text-gray-500">#{item.colorCode}</p>}
         {item.quantity && <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{item.quantity}</p>}
         {usedInProjects && usedInProjects.length > 0 && (
-          <p className="text-xs text-teal-600 mt-1 flex items-center gap-1 truncate">
+          <p className="text-xs text-violet-600 mt-1 flex items-center gap-1 truncate">
             <FolderKanban size={10} />
             Used in {usedInProjects.length} project{usedInProjects.length > 1 ? 's' : ''}
           </p>
@@ -119,12 +119,12 @@ function GlassSwatch({ item, onClick, selected, selectMode, onToggleSelect }: {
   return (
     <button
       onClick={selectMode ? onToggleSelect : onClick}
-      className={`group relative rounded-xl overflow-hidden border hover:shadow-md transition-all ${selected ? 'border-teal-400 ring-2 ring-teal-200' : 'border-gray-100 dark:border-gray-800 hover:border-teal-300 dark:hover:border-teal-600'}`}
+      className={`group relative rounded-xl overflow-hidden border hover:shadow-md transition-all ${selected ? 'border-violet-400 ring-2 ring-violet-200' : 'border-gray-100 dark:border-gray-800 hover:border-violet-300 dark:hover:border-violet-600'}`}
       title={`${item.name || item.colorName}${item.colorCode ? ` · #${item.colorCode}` : ''}`}
     >
       {selectMode && (
         <div className="absolute top-1 left-1 z-10">
-          <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${selected ? 'bg-teal-500 border-teal-500' : 'bg-white/80 dark:bg-gray-700/80 border-gray-300 dark:border-gray-600'}`}>
+          <div className={`w-4 h-4 rounded border-2 flex items-center justify-center ${selected ? 'bg-violet-500 border-violet-500' : 'bg-white/80 dark:bg-gray-700/80 border-gray-300 dark:border-gray-600'}`}>
             {selected && <svg viewBox="0 0 10 10" className="w-2.5 h-2.5 text-white fill-none stroke-current stroke-2"><polyline points="1.5,5 4,8 8.5,2" /></svg>}
           </div>
         </div>
@@ -199,7 +199,7 @@ function PriceHistorySection({ history, onChange }: { history: GlassPriceEntry[]
           <button
             type="button"
             onClick={addEntry}
-            className="text-xs text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1 mt-1"
+            className="text-xs text-violet-600 hover:text-violet-700 font-medium flex items-center gap-1 mt-1"
           >
             <Plus size={12} /> Add price entry
           </button>
@@ -308,13 +308,13 @@ function GlassForm({
 
       {/* Project Usage */}
       {usedInProjects && usedInProjects.length > 0 && (
-        <div className="bg-teal-50 dark:bg-teal-900/20 rounded-xl p-3">
-          <p className="text-xs font-semibold text-teal-700 dark:text-teal-300 mb-1.5 flex items-center gap-1.5">
+        <div className="bg-violet-50 dark:bg-violet-900/20 rounded-xl p-3">
+          <p className="text-xs font-semibold text-violet-700 dark:text-violet-300 mb-1.5 flex items-center gap-1.5">
             <FolderKanban size={12} /> Used in {usedInProjects.length} project{usedInProjects.length > 1 ? 's' : ''}
           </p>
           <div className="flex flex-wrap gap-1.5">
             {usedInProjects.map(name => (
-              <span key={name} className="text-xs bg-white dark:bg-gray-800 text-teal-800 dark:text-teal-300 border border-teal-200 dark:border-teal-700 px-2 py-0.5 rounded-full">{name}</span>
+              <span key={name} className="text-xs bg-white dark:bg-gray-800 text-violet-800 dark:text-violet-300 border border-violet-200 dark:border-violet-700 px-2 py-0.5 rounded-full">{name}</span>
             ))}
           </div>
         </div>
@@ -435,7 +435,7 @@ export function GlassPage() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-          <Layers size={24} className="text-teal-600" />
+          <Layers size={24} className="text-violet-600" />
           Glass Inventory
         </h1>
         <div className="flex items-center gap-2">
@@ -458,7 +458,7 @@ export function GlassPage() {
           </div>
           <button
             onClick={() => { setSelectMode(m => !m); setSelectedIds(new Set()) }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-sm font-medium transition-colors ${selectMode ? 'bg-teal-50 dark:bg-teal-900/30 border-teal-300 text-teal-700 dark:text-teal-400' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-teal-300 dark:hover:border-teal-600'}`}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-sm font-medium transition-colors ${selectMode ? 'bg-violet-50 dark:bg-violet-900/30 border-violet-300 text-violet-700 dark:text-violet-400' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-violet-300 dark:hover:border-violet-600'}`}
             title="Multi-select for bulk tag editing"
           >
             <CheckSquare size={15} /> Select
@@ -488,7 +488,7 @@ export function GlassPage() {
             <button
               key={tag}
               onClick={() => setFilterTag(filterTag === tag ? '' : tag)}
-              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${filterTag === tag ? 'bg-teal-600 text-white border-teal-600' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-teal-400'}`}
+              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${filterTag === tag ? 'bg-violet-600 text-white border-violet-600' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-violet-400'}`}
             >{tag}</button>
           ))}
         </div>
@@ -499,7 +499,7 @@ export function GlassPage() {
           {filtered.length} piece{filtered.length !== 1 ? 's' : ''}
           {estValue > 0 && <span className="text-gray-400 dark:text-gray-500"> · Est. value ${estValue.toFixed(2)}</span>}
         </p>
-        {selectMode && <p className="text-sm text-teal-600 font-medium">{selectedIds.size} selected — click items to select</p>}
+        {selectMode && <p className="text-sm text-violet-600 font-medium">{selectedIds.size} selected — click items to select</p>}
         {viewMode === 'swatches' && !selectMode && <p className="text-xs text-gray-400 dark:text-gray-500">Sorted by color family</p>}
       </div>
 

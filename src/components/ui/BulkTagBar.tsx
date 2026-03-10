@@ -32,7 +32,7 @@ export function BulkTagBar({ count, onAddTag, onRemoveTag, onDelete, onCancel }:
         <>
           <button
             onClick={() => setMode('add')}
-            className="flex items-center gap-1.5 text-sm bg-teal-600 hover:bg-teal-500 px-3 py-1.5 rounded-lg transition-colors shrink-0"
+            className="flex items-center gap-1.5 text-sm bg-violet-600 hover:bg-violet-500 px-3 py-1.5 rounded-lg transition-colors shrink-0"
           >
             <Tag size={13} /> Add tag
           </button>
@@ -58,7 +58,7 @@ export function BulkTagBar({ count, onAddTag, onRemoveTag, onDelete, onCancel }:
           <span className="text-xs text-gray-400 shrink-0">{mode === 'add' ? 'Add tag:' : 'Remove tag:'}</span>
           <input
             autoFocus
-            className="bg-gray-800 border border-gray-600 rounded-lg px-2 py-1 text-sm text-white placeholder-gray-500 flex-1 outline-none focus:border-teal-400"
+            className="bg-gray-800 border border-gray-600 rounded-lg px-2 py-1 text-sm text-white placeholder-gray-500 flex-1 outline-none focus:border-violet-400"
             placeholder="tag name..."
             value={tagInput}
             onChange={e => setTagInput(e.target.value)}

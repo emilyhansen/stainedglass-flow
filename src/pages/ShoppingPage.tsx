@@ -121,7 +121,7 @@ export function ShoppingPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <ShoppingCart size={24} className="text-teal-600" />
+            <ShoppingCart size={24} className="text-violet-600" />
             Shopping List
           </h1>
           {pendingCount > 0 && (
@@ -144,7 +144,7 @@ export function ShoppingPage() {
           ))}
         </div>
         <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
-          <input type="checkbox" checked={showPurchased} onChange={e => setShowPurchased(e.target.checked)} className="rounded text-teal-600" />
+          <input type="checkbox" checked={showPurchased} onChange={e => setShowPurchased(e.target.checked)} className="rounded text-violet-600" />
           Show purchased
         </label>
       </div>
@@ -187,7 +187,7 @@ function ItemList({ items, onEdit, onToggle, onDelete }: { items: ShoppingItem[]
         <div key={item.id} className={`bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm p-3 flex items-center gap-3 group transition-opacity ${item.purchased ? 'opacity-50' : ''}`}>
           <button
             onClick={() => onToggle(item)}
-            className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${item.purchased ? 'bg-teal-500 border-teal-500 text-white' : 'border-gray-300 hover:border-teal-400'}`}
+            className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${item.purchased ? 'bg-violet-500 border-violet-500 text-white' : 'border-gray-300 hover:border-violet-400'}`}
           >
             {item.purchased && <Check size={11} />}
           </button>
@@ -204,7 +204,7 @@ function ItemList({ items, onEdit, onToggle, onDelete }: { items: ShoppingItem[]
             </div>
           </div>
           {item.url && (
-            <a href={item.url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} className="text-teal-500 hover:text-teal-600 shrink-0">
+            <a href={item.url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} className="text-violet-500 hover:text-violet-600 shrink-0">
               <ExternalLink size={15} />
             </a>
           )}

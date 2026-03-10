@@ -1,20 +1,30 @@
-# Glass Stash — Claude Instructions
+# StainedGlass Flow — Claude Instructions
 
 ## Project
 
-Stained glass studio organizer. Vite + React 19 + TypeScript + Tailwind CSS v3 + IndexedDB (no backend). All data stored locally via `idb`.
+StainedGlass Flow — stained glass studio organizer. Vite + React 19 + TypeScript + Tailwind CSS v3 + IndexedDB (no backend). All data stored locally via `idb`.
 
 **Real project path:** `/Users/emily.hansen/src/github-personal/stainedglass-stash`
-(MEMORY.md may reference an old path — ignore it if it differs)
+(MEMORY.md may reference an old path or old name — ignore it if it differs)
 
 ## Commands
 
 ```bash
 npm run dev          # dev server at http://localhost:5173
+./start.sh           # same as above, but works from any directory
 npx tsc --noEmit     # type check — run before AND after any changes
 npm run build        # production build
 npm run lint         # ESLint
 ```
+
+### CSS not rendering? Clear the Vite cache
+
+If Tailwind utility classes are missing (no layout, no colors, unstyled HTML):
+```bash
+rm -rf node_modules/.vite && npm run dev
+```
+The `.vite` folder caches pre-processed CSS. When stale, Tailwind generates zero utilities.
+This is harmless to delete — Vite rebuilds it automatically on next start.
 
 TypeScript check command when shell working directory is wrong:
 ```bash
@@ -45,6 +55,7 @@ Before touching any feature, read:
 - No-flash script in `index.html` `<head>`: `if(localStorage.getItem('darkMode')==='true')document.documentElement.classList.add('dark')`
 - **Do not** use `@apply dark:` inside `@layer components` — it doesn't work in Tailwind v3 with class strategy. Use `.dark .selector {}` in `index.css` instead (already done for `.input`)
 - Standard color mapping: `bg-white` → `dark:bg-gray-900`, `text-gray-900` → `dark:text-white`, `border-gray-200` → `dark:border-gray-700`, `text-gray-500` → `dark:text-gray-400`
+- **Primary brand color is violet** (`violet-600` / `#7c3aed`) — no custom color override in `tailwind.config.js`, using Tailwind's built-in violet palette
 
 ## Key Components
 

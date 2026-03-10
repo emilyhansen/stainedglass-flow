@@ -22,7 +22,7 @@ const nav = [
 
 const linkCls = (isActive: boolean) =>
   `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-    isActive ? 'bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
+    isActive ? 'bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
   }`
 
 interface SidebarProps {
@@ -53,10 +53,10 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         `}
       >
         <div className="flex items-center gap-2 px-5 py-5 border-b border-gray-100 dark:border-gray-800">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-400 to-violet-600 flex items-center justify-center">
             <Sparkles size={16} className="text-white" />
           </div>
-          <span className="font-bold text-gray-900 dark:text-white text-base flex-1">Glass Stash</span>
+          <span className="font-bold text-gray-900 dark:text-white text-base flex-1">StainedGlass Flow</span>
           {/* Close button on mobile */}
           {isMobileControlled && (
             <button onClick={onClose} className="lg:hidden text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 -mr-1">
@@ -76,7 +76,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
             >
               {({ isActive }) => (
                 <>
-                  <Icon size={18} className={isActive ? 'text-teal-600' : 'text-gray-400'} />
+                  <Icon size={18} className={isActive ? 'text-violet-600' : 'text-gray-400'} />
                   {label}
                 </>
               )}
@@ -88,12 +88,12 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           <NavLink to="/settings" className={({ isActive }) => linkCls(isActive)} onClick={onClose}>
             {({ isActive }) => (
               <>
-                <Settings size={18} className={isActive ? 'text-teal-600 dark:text-teal-400' : 'text-gray-400 dark:text-gray-500'} />
+                <Settings size={18} className={isActive ? 'text-violet-600 dark:text-violet-400' : 'text-gray-400 dark:text-gray-500'} />
                 Settings &amp; Backup
               </>
             )}
           </NavLink>
-          <p className="text-xs text-gray-400 dark:text-gray-600 text-center pt-2">Glass Stash v1.0</p>
+          <p className="text-xs text-gray-400 dark:text-gray-600 text-center pt-2">StainedGlass Flow v1.0</p>
         </div>
       </aside>
     </>

@@ -37,7 +37,7 @@ const statusColors: Record<ProjectStatus, string> = {
 function ProjectCard({ item, onClick, onPhotoClick }: { item: Project; onClick: () => void; onPhotoClick?: (images: string[], index: number) => void }) {
   const photos = [...(item.coverPhoto ? [item.coverPhoto] : []), ...item.progressPhotos]
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-teal-200 dark:hover:border-teal-700 transition-all cursor-pointer" onClick={onClick}>
+    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-violet-200 dark:hover:border-violet-700 transition-all cursor-pointer" onClick={onClick}>
       <div
         className="aspect-[16/10] bg-gradient-to-br from-gray-100 dark:from-gray-800 to-gray-200 dark:to-gray-700 rounded-t-2xl overflow-hidden relative"
         onClick={photos.length > 0 && onPhotoClick ? e => { e.stopPropagation(); onPhotoClick(photos, 0) } : undefined}
@@ -71,7 +71,7 @@ function ProjectCard({ item, onClick, onPhotoClick }: { item: Project; onClick: 
           </div>
         )}
         {item.nextStep && (
-          <div className="flex items-center gap-1 text-xs text-teal-600 mt-1.5 font-medium">
+          <div className="flex items-center gap-1 text-xs text-violet-600 mt-1.5 font-medium">
             <ChevronRight size={12} />
             <span className="truncate">{item.nextStep}</span>
           </div>
@@ -150,7 +150,7 @@ function MaterialsSection({
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Materials &amp; Cost Calculator</h3>
         {totalCost > 0 && (
-          <div className="bg-teal-50 text-teal-700 px-3 py-1 rounded-full text-sm font-semibold">
+          <div className="bg-violet-50 text-violet-700 px-3 py-1 rounded-full text-sm font-semibold">
             Total: ${totalCost.toFixed(2)}
           </div>
         )}
@@ -213,7 +213,7 @@ function MaterialsSection({
                   key={g.id}
                   type="button"
                   onClick={() => addGlass(g)}
-                  className="w-full flex items-center gap-2 px-3 py-2 hover:bg-teal-50 dark:hover:bg-teal-900/20 text-sm text-left dark:text-gray-200"
+                  className="w-full flex items-center gap-2 px-3 py-2 hover:bg-violet-50 dark:hover:bg-violet-900/20 text-sm text-left dark:text-gray-200"
                 >
                   {g.photos[0] && <img src={g.photos[0]} alt="" className="w-6 h-6 rounded object-cover" />}
                   <span className="flex-1 truncate">{g.name || g.colorName}</span>
@@ -282,7 +282,7 @@ function MaterialsSection({
                   key={s.id}
                   type="button"
                   onClick={() => addSupply(s)}
-                  className="w-full flex items-center gap-2 px-3 py-2 hover:bg-teal-50 dark:hover:bg-teal-900/20 text-sm text-left dark:text-gray-200"
+                  className="w-full flex items-center gap-2 px-3 py-2 hover:bg-violet-50 dark:hover:bg-violet-900/20 text-sm text-left dark:text-gray-200"
                 >
                   <span className="flex-1 truncate">{s.name}</span>
                   <span className="text-xs text-gray-400">{s.category}</span>
@@ -370,7 +370,7 @@ function CommissionSection({ form, setForm, allGlass, allSupplies }: {
           min="0"
           max="300"
           step="5"
-          className="w-full accent-teal-600"
+          className="w-full accent-violet-600"
           value={markupPct}
           onChange={e => setForm(f => ({ ...f, commissionMarkup: +e.target.value }))}
         />
@@ -703,7 +703,7 @@ export function ProjectsPage() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-          <FolderKanban size={24} className="text-teal-600" />
+          <FolderKanban size={24} className="text-violet-600" />
           Projects
         </h1>
         <Button onClick={() => { setEditing(emptyProject()); setModalOpen(true) }}>
@@ -716,7 +716,7 @@ export function ProjectsPage() {
           {STATUSES.map(s => (
             <button
               key={s}
-              className={`bg-white dark:bg-gray-900 rounded-xl border p-3 text-left transition-colors ${filterStatus === s ? 'border-teal-400 shadow-sm' : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'}`}
+              className={`bg-white dark:bg-gray-900 rounded-xl border p-3 text-left transition-colors ${filterStatus === s ? 'border-violet-400 shadow-sm' : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'}`}
               onClick={() => setFilterStatus(filterStatus === s ? 'All' : s)}
             >
               <p className="text-2xl font-bold text-gray-900 dark:text-white">{counts[s] ?? 0}</p>
@@ -745,7 +745,7 @@ export function ProjectsPage() {
         <div className="flex flex-wrap gap-1.5 mb-4">
           {allTags.map(tag => (
             <button key={tag} onClick={() => setFilterTag(filterTag === tag ? '' : tag)}
-              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${filterTag === tag ? 'bg-teal-600 text-white border-teal-600' : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-teal-400'}`}
+              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${filterTag === tag ? 'bg-violet-600 text-white border-violet-600' : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-violet-400'}`}
             >{tag}</button>
           ))}
         </div>

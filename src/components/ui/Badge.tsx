@@ -4,7 +4,7 @@ const variants: Record<string, string> = {
   'Low': 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400',
   'Out of Stock': 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400',
   // Pattern status
-  'In Stash': 'bg-teal-100 dark:bg-teal-900/30 text-teal-800 dark:text-teal-400',
+  'In Stash': 'bg-violet-100 dark:bg-violet-900/30 text-violet-800 dark:text-violet-400',
   'Wish List': 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-400',
   'In Progress': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400',
   'Made': 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400',

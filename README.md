@@ -1,4 +1,4 @@
-# Glass Stash
+# StainedGlass Flow
 
 A personal studio organizer for stained glass artists. Track your glass inventory, patterns, projects, and supplies — all stored locally in your browser with no account required.
 
@@ -36,10 +36,12 @@ All data is stored locally in your browser's IndexedDB — nothing is sent to a 
 
 ```bash
 npm install
-npm run dev
+npm run dev        # or: ./start.sh
 ```
 
 Then open [http://localhost:5173](http://localhost:5173).
+
+`start.sh` is a convenience script that always runs from the correct project directory regardless of where your terminal is.
 
 ## Other Scripts
 
@@ -75,6 +77,7 @@ src/
     DeadlinesPage.tsx
     StatsPage.tsx
     PdfConverterPage.tsx
+    GalleryPage.tsx
   types/
     imagetracerjs.d.ts  # type declaration for imagetracerjs
 ```
@@ -84,10 +87,32 @@ src/
 Data lives entirely in your browser. To back up:
 
 1. Go to **Settings & Backup**
-2. Click **Export** to download `glass-stash-backup-[date].json`
+2. Click **Export** to download `stainedglass-flow-backup-[date].json`
 3. To restore, drag that file onto the import area (or click to browse)
 
 > **Note:** Importing replaces all existing data. Export first if you want to keep anything.
+
+## Troubleshooting
+
+**App loads but has no styling (no layout, no colors)?**
+
+The Vite dependency cache is stale. Delete it and restart:
+
+```bash
+rm -rf node_modules/.vite && npm run dev
+# or shorthand:
+./start.sh --fresh
+```
+
+Vite rebuilds the cache automatically — it's safe to delete any time.
+
+---
+
+**Port 5173 already in use?**
+
+Vite will automatically pick the next available port (5174, 5175, …) and print the actual URL in the terminal.
+
+---
 
 ## Future Plans
 
