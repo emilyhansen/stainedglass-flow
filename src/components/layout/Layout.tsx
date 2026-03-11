@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom'
 import { Menu } from 'lucide-react'
 import { Sidebar } from './Sidebar'
 import { CommandPalette } from '../ui/CommandPalette'
+import { getAllProjects } from '../../lib/db'
 
 export function Layout() {
   const [paletteOpen, setPaletteOpen] = useState(false)
@@ -17,6 +18,37 @@ export function Layout() {
     }
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)
+  }, [])
+
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      if (sessionStorage.getItem('deadlineNotifShown') || !('Notification' in window)) return
+      const projects = await getAllProjects()
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      const upcoming = projects.filter(p => {
+        if (p.status === 'Completed' || !p.deadline) return false
+        const dl = new Date(p.deadline)
+        dl.setHours(0, 0, 0, 0)
+        const warnDays = parseInt(localStorage.getItem('deadlineNotifDays') ?? '7', 10)
+        return (dl.getTime() - today.getTime()) / (1000 * 60 * 60 * 24) <= warnDays
+      })
+      if (upcoming.length === 0) return
+      let perm = Notification.permission
+      if (perm === 'default') perm = await Notification.requestPermission()
+      if (perm !== 'granted') return
+      for (const p of upcoming) {
+        const dl = new Date(p.deadline!)
+        dl.setHours(0, 0, 0, 0)
+        const days = Math.round((dl.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
+        const body = days < 0
+          ? `Overdue by ${Math.abs(days)} day${Math.abs(days) !== 1 ? 's' : ''}`
+          : days === 0 ? 'Due today!' : `Due in ${days} day${days !== 1 ? 's' : ''}`
+        new Notification(p.name, { body })
+      }
+      sessionStorage.setItem('deadlineNotifShown', '1')
+    }, 3000)
+    return () => clearTimeout(timer)
   }, [])
 
   return (

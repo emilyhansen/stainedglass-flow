@@ -244,6 +244,14 @@ export function SuppliesPage() {
     setSelectMode(false); setSelectedIds(new Set())
   }
 
+  const handleBulkSetStatus = async (status: string) => {
+    for (const item of items.filter(i => selectedIds.has(i.id))) {
+      await saveSupply({ ...item, status: status as SupplyStatus })
+    }
+    setItems(await getAllSupplies())
+    setSelectMode(false); setSelectedIds(new Set())
+  }
+
   const exitSelectMode = () => { setSelectMode(false); setSelectedIds(new Set()) }
 
   const renderGrid = (gridItems: Supply[]) => (
@@ -362,6 +370,8 @@ export function SuppliesPage() {
           onAddTag={handleBulkAddTag}
           onRemoveTag={handleBulkRemoveTag}
           onDelete={handleBulkDelete}
+          onSetStatus={handleBulkSetStatus}
+          statusOptions={STATUSES}
           onCancel={exitSelectMode}
         />
       )}

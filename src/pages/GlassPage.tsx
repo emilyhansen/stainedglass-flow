@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Plus, Search, Layers, LayoutGrid, Grid3x3, CheckSquare, X, Clock, FolderKanban } from 'lucide-react'
+import { Plus, Search, Layers, LayoutGrid, Grid3x3, CheckSquare, X, Clock, FolderKanban, ShoppingCart } from 'lucide-react'
 import { nanoid } from 'nanoid'
-import type { GlassItem, GlassStatus, GlassType, GlassPriceEntry } from '../lib/types'
-import { getAllGlass, saveGlass, deleteGlass, getAllProjects } from '../lib/db'
+import type { GlassItem, GlassStatus, GlassType, GlassPriceEntry, ShoppingItem } from '../lib/types'
+import { getAllGlass, saveGlass, deleteGlass, getAllProjects, saveShopping } from '../lib/db'
 import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
 import { Modal } from '../components/ui/Modal'
@@ -429,7 +429,33 @@ export function GlassPage() {
     setSelectMode(false); setSelectedIds(new Set())
   }
 
+  const handleBulkSetStatus = async (status: string) => {
+    for (const item of items.filter(i => selectedIds.has(i.id))) {
+      await saveGlass({ ...item, status: status as GlassStatus })
+    }
+    setItems(await getAllGlass())
+    setSelectMode(false); setSelectedIds(new Set())
+  }
+
   const exitSelectMode = () => { setSelectMode(false); setSelectedIds(new Set()) }
+
+  const [shoppingToast, setShoppingToast] = useState<string | null>(null)
+  const handleAddToShopping = async (item: GlassItem) => {
+    const newItem: ShoppingItem = {
+      id: nanoid(),
+      name: item.name || item.colorName,
+      type: 'Glass',
+      supplier: item.supplier,
+      priority: item.status === 'Out of Stock' ? 'High' : 'Medium',
+      purchased: false,
+      notes: item.manufacturer ? `${item.manufacturer}${item.colorCode ? ` #${item.colorCode}` : ''}` : undefined,
+      linkedId: item.id,
+      createdAt: new Date().toISOString(),
+    }
+    await saveShopping(newItem)
+    setShoppingToast(item.name || item.colorName)
+    setTimeout(() => setShoppingToast(null), 2500)
+  }
 
   return (
     <div className="p-6">
@@ -521,10 +547,21 @@ export function GlassPage() {
                 onToggleSelect={() => toggleSelect(item.id)}
               />
               {!selectMode && (
-                <button
-                  className="absolute top-2 right-2 bg-white/90 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-sm text-base leading-none"
-                  onClick={e => { e.stopPropagation(); setDeleteTarget(item.id) }}
-                >×</button>
+                <>
+                  {(item.status === 'Low' || item.status === 'Out of Stock') && (
+                    <button
+                      className="absolute top-2 right-9 bg-white/90 hover:bg-violet-50 text-gray-400 hover:text-violet-600 rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-sm"
+                      onClick={e => { e.stopPropagation(); handleAddToShopping(item) }}
+                      title="Add to shopping list"
+                    >
+                      <ShoppingCart size={12} />
+                    </button>
+                  )}
+                  <button
+                    className="absolute top-2 right-2 bg-white/90 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-sm text-base leading-none"
+                    onClick={e => { e.stopPropagation(); setDeleteTarget(item.id) }}
+                  >×</button>
+                </>
               )}
             </div>
           ))}
@@ -572,6 +609,8 @@ export function GlassPage() {
           onAddTag={handleBulkAddTag}
           onRemoveTag={handleBulkRemoveTag}
           onDelete={handleBulkDelete}
+          onSetStatus={handleBulkSetStatus}
+          statusOptions={STATUSES}
           onCancel={exitSelectMode}
         />
       )}
@@ -579,6 +618,13 @@ export function GlassPage() {
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-gray-900 text-white rounded-2xl shadow-2xl px-4 py-3 flex items-center gap-3">
           <span className="text-sm text-gray-300">Click items to select them</span>
           <button onClick={exitSelectMode} className="text-gray-400 hover:text-white"><X size={16} /></button>
+        </div>
+      )}
+
+      {shoppingToast && (
+        <div className="fixed bottom-6 right-6 z-50 bg-gray-900 text-white rounded-xl px-4 py-2.5 shadow-xl flex items-center gap-2 pointer-events-none">
+          <ShoppingCart size={14} className="text-violet-400" />
+          <span className="text-sm">Added to shopping list</span>
         </div>
       )}
     </div>

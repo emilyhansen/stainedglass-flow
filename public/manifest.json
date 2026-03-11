@@ -1,11 +1,11 @@
 {
-  "name": "Glass Stash",
-  "short_name": "Glass Stash",
+  "name": "StainedGlass Flow",
+  "short_name": "SG Flow",
   "description": "Stained glass studio organizer",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f9fafb",
-  "theme_color": "#0d9488",
+  "theme_color": "#7c3aed",
   "icons": [
     { "src": "/vite.svg", "sizes": "any", "type": "image/svg+xml" }
   ]

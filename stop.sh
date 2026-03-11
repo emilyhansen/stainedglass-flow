@@ -1,5 +1,5 @@
 #!/bin/bash
-# Glass Stash — stop the dev server
+# StainedGlass Flow — stop the dev server
 
 PORT=5173
 
@@ -9,5 +9,5 @@ if [[ -z "$PID" ]]; then
   echo "Nothing running on port $PORT."
 else
   kill "$PID"
-  echo "Stopped Glass Stash (port $PORT, pid $PID)."
+  echo "Stopped StainedGlass Flow (port $PORT, pid $PID)."
 fi

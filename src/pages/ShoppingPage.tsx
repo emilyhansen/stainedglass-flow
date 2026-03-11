@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Plus, ShoppingCart, ExternalLink, Check } from 'lucide-react'
+import { Plus, ShoppingCart, ExternalLink, Check, RefreshCw } from 'lucide-react'
 import { nanoid } from 'nanoid'
 import type { ShoppingItem, ShoppingItemType } from '../lib/types'
-import { getAllShopping, saveShopping, deleteShopping } from '../lib/db'
+import { getAllShopping, saveShopping, deleteShopping, getAllGlass, saveGlass, getAllSupplies, saveSupply } from '../lib/db'
 import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
 import { Modal } from '../components/ui/Modal'
@@ -81,6 +81,7 @@ export function ShoppingPage() {
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState<ShoppingItem | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null)
+  const [restockPrompt, setRestockPrompt] = useState<ShoppingItem | null>(null)
 
   useEffect(() => { getAllShopping().then(setItems) }, [])
 
@@ -97,9 +98,25 @@ export function ShoppingPage() {
   }
 
   const togglePurchased = async (item: ShoppingItem) => {
-    const updated = { ...item, purchased: !item.purchased }
+    const nowPurchased = !item.purchased
+    const updated = { ...item, purchased: nowPurchased }
     await saveShopping(updated)
     setItems(await getAllShopping())
+    if (nowPurchased && item.linkedId) setRestockPrompt(updated)
+  }
+
+  const handleRestock = async () => {
+    if (!restockPrompt?.linkedId) return
+    if (restockPrompt.type === 'Glass') {
+      const all = await getAllGlass()
+      const target = all.find(g => g.id === restockPrompt.linkedId)
+      if (target) await saveGlass({ ...target, status: 'In Stock' })
+    } else if (restockPrompt.type === 'Supply') {
+      const all = await getAllSupplies()
+      const target = all.find(s => s.id === restockPrompt.linkedId)
+      if (target) await saveSupply({ ...target, status: 'In Stock' })
+    }
+    setRestockPrompt(null)
   }
 
   const handleDelete = async (id: string) => {
@@ -171,6 +188,20 @@ export function ShoppingPage() {
       </Modal>
 
       <ConfirmDialog open={!!deleteTarget} onClose={() => setDeleteTarget(null)} onConfirm={() => deleteTarget && handleDelete(deleteTarget)} title="Remove Item" message="Remove this item from your shopping list?" />
+
+      {restockPrompt && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-gray-900 text-white rounded-2xl shadow-2xl px-4 py-3 flex items-center gap-3">
+          <RefreshCw size={15} className="text-violet-400 shrink-0" />
+          <span className="text-sm text-gray-200">Mark <span className="font-medium">{restockPrompt.name}</span> as In Stock?</span>
+          <button
+            onClick={handleRestock}
+            className="text-sm bg-violet-600 hover:bg-violet-500 px-3 py-1.5 rounded-lg transition-colors shrink-0"
+          >
+            Mark In Stock
+          </button>
+          <button onClick={() => setRestockPrompt(null)} className="text-gray-400 hover:text-white shrink-0 text-lg leading-none">×</button>
+        </div>
+      )}
     </div>
   )
 }

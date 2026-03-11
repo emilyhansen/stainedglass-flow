@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Tag, X, Trash2 } from 'lucide-react'
+import { Tag, X, Trash2, ToggleLeft } from 'lucide-react'
 import { Button } from './Button'
 
 interface BulkTagBarProps {
@@ -7,11 +7,13 @@ interface BulkTagBarProps {
   onAddTag: (tag: string) => void
   onRemoveTag: (tag: string) => void
   onDelete?: () => void
+  onSetStatus?: (status: string) => void
+  statusOptions?: string[]
   onCancel: () => void
 }
 
-export function BulkTagBar({ count, onAddTag, onRemoveTag, onDelete, onCancel }: BulkTagBarProps) {
-  const [mode, setMode] = useState<'idle' | 'add' | 'remove' | 'confirmDelete'>('idle')
+export function BulkTagBar({ count, onAddTag, onRemoveTag, onDelete, onSetStatus, statusOptions, onCancel }: BulkTagBarProps) {
+  const [mode, setMode] = useState<'idle' | 'add' | 'remove' | 'confirmDelete' | 'setStatus'>('idle')
   const [tagInput, setTagInput] = useState('')
 
   const submit = (e: React.FormEvent) => {
@@ -42,6 +44,14 @@ export function BulkTagBar({ count, onAddTag, onRemoveTag, onDelete, onCancel }:
           >
             <X size={13} /> Remove tag
           </button>
+          {onSetStatus && (
+            <button
+              onClick={() => setMode('setStatus')}
+              className="flex items-center gap-1.5 text-sm bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded-lg transition-colors shrink-0"
+            >
+              <ToggleLeft size={13} /> Set status
+            </button>
+          )}
           {onDelete && (
             <button
               onClick={() => setMode('confirmDelete')}
@@ -68,6 +78,24 @@ export function BulkTagBar({ count, onAddTag, onRemoveTag, onDelete, onCancel }:
             <X size={14} />
           </button>
         </form>
+      )}
+
+      {mode === 'setStatus' && (
+        <div className="flex items-center gap-2 flex-1">
+          <span className="text-xs text-gray-400 shrink-0">Set status:</span>
+          {(statusOptions ?? ['In Stock', 'Low', 'Out of Stock']).map(s => (
+            <button
+              key={s}
+              onClick={() => { onSetStatus?.(s); setMode('idle') }}
+              className="text-xs bg-gray-700 hover:bg-violet-600 px-2.5 py-1.5 rounded-lg transition-colors shrink-0"
+            >
+              {s}
+            </button>
+          ))}
+          <button onClick={() => setMode('idle')} className="text-gray-400 hover:text-white shrink-0 ml-1">
+            <X size={14} />
+          </button>
+        </div>
       )}
 
       {mode === 'confirmDelete' && (
