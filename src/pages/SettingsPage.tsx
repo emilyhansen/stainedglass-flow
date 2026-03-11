@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { Download, Upload, Settings, AlertTriangle, CheckCircle, FileSpreadsheet, Moon, Sun, Bell } from 'lucide-react'
+import { Download, Upload, Settings, AlertTriangle, CheckCircle, FileSpreadsheet, Moon, Sun, Bell, FolderOpen } from 'lucide-react'
 import { exportAllData, importAllData, saveGlass, getAllGlass, getAllSupplies } from '../lib/db'
 import { Button } from '../components/ui/Button'
 import type { GlassItem, GlassType, GlassStatus } from '../lib/types'
@@ -22,6 +22,9 @@ export function SettingsPage() {
   const [csvCount, setCsvCount] = useState(0)
   const [darkMode, setDarkMode] = useState(() => document.documentElement.classList.contains('dark'))
   const [notifDays, setNotifDays] = useState(() => parseInt(localStorage.getItem('deadlineNotifDays') ?? '7', 10))
+  const [backupDirHandle, setBackupDirHandle] = useState<FileSystemDirectoryHandle | null>(null)
+  const [backupDirName, setBackupDirName] = useState('')
+  const [folderSaveStatus, setFolderSaveStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   const toggleDarkMode = () => {
     const next = !darkMode
@@ -70,6 +73,39 @@ export function SettingsPage() {
     } catch (e) {
       setCsvError(e instanceof Error ? e.message : 'Failed to parse CSV.')
       setCsvStatus('error')
+    }
+  }
+
+  const handlePickFolder = async () => {
+    const win = window as Window & { showDirectoryPicker?: (opts?: { mode?: string }) => Promise<FileSystemDirectoryHandle> }
+    if (!win.showDirectoryPicker) {
+      alert('Folder selection requires Chrome or Edge. Use the Export button to save manually.')
+      return
+    }
+    try {
+      const dir = await win.showDirectoryPicker({ mode: 'readwrite' })
+      setBackupDirHandle(dir)
+      setBackupDirName(dir.name)
+      setFolderSaveStatus('idle')
+    } catch {
+      // user cancelled
+    }
+  }
+
+  const handleSaveToFolder = async () => {
+    if (!backupDirHandle) return
+    try {
+      const data = await exportAllData()
+      const json = JSON.stringify(data, null, 2)
+      const filename = `stainedglass-flow-backup-${new Date().toISOString().slice(0, 10)}.json`
+      const fileHandle = await backupDirHandle.getFileHandle(filename, { create: true })
+      const writable = await fileHandle.createWritable()
+      await writable.write(json)
+      await writable.close()
+      setFolderSaveStatus('success')
+      setTimeout(() => setFolderSaveStatus('idle'), 3000)
+    } catch {
+      setFolderSaveStatus('error')
     }
   }
 
@@ -239,6 +275,45 @@ export function SettingsPage() {
             </Button>
           </div>
         </div>
+      </div>
+
+      {/* Folder Backup */}
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm p-6 mb-5">
+        <div className="flex items-start gap-3 mb-4">
+          <FolderOpen size={20} className="text-violet-500 shrink-0 mt-0.5" />
+          <div>
+            <h2 className="text-base font-semibold text-gray-900 dark:text-white mb-0.5">Backup to Folder</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Save backups directly to iCloud Drive, Google Drive, or any local folder. Chrome &amp; Edge only.</p>
+          </div>
+        </div>
+        {backupDirHandle ? (
+          <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-2 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-800 rounded-xl px-3 py-2 flex-1 min-w-0">
+              <FolderOpen size={14} className="text-violet-600 shrink-0" />
+              <span className="text-sm font-medium text-violet-800 dark:text-violet-300 truncate">{backupDirName}</span>
+            </div>
+            <Button onClick={handleSaveToFolder} className="shrink-0">
+              <Download size={15} /> Save Backup
+            </Button>
+            <button onClick={handlePickFolder} className="text-sm text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 shrink-0">Change folder</button>
+          </div>
+        ) : (
+          <Button variant="secondary" onClick={handlePickFolder}>
+            <FolderOpen size={15} /> Choose Folder
+          </Button>
+        )}
+        {folderSaveStatus === 'success' && (
+          <div className="flex items-center gap-2 mt-3 text-green-600">
+            <CheckCircle size={15} />
+            <span className="text-sm">Backup saved to folder.</span>
+          </div>
+        )}
+        {folderSaveStatus === 'error' && (
+          <div className="flex items-center gap-2 mt-3 text-red-600">
+            <AlertTriangle size={15} />
+            <span className="text-sm">Save failed. Make sure the folder is still accessible.</span>
+          </div>
+        )}
       </div>
 
       {/* Import */}

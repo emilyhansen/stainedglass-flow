@@ -4,17 +4,17 @@ A personal studio organizer for stained glass artists. Track your glass inventor
 
 ## Features
 
-- **Glass Inventory** — Log every piece of glass with color, type, manufacturer, dimensions, cost, and photos. Toggle between a card view and a compact color-sorted swatch grid. Tracks price history over time and shows which projects each sheet was used in. Bulk-select cards to add/remove tags or change status across multiple sheets at once.
-- **Patterns** — Catalog your pattern collection with style, difficulty, piece count, line drawings, photos, and a glass color plan. Tracks status from Wish List through Made, and shows how many projects have used each pattern.
-- **Projects** — Manage active and completed work with a full journal, progress photos, deadline tracking, a materials cost calculator, and a commission pricing tool (markup + labor rate + hours = suggested price). Start a new project from a pattern template to pre-fill the glass plan.
+- **Glass Inventory** — Log every piece of glass with color, type, manufacturer, dimensions, cost, and photos. Toggle between a card view and a compact swatch grid sorted by hue (color name keywords map to hue values, with light/dark modifiers). Tracks price history over time and shows which projects each sheet was used in. Bulk-select cards to add/remove tags or change status across multiple sheets at once.
+- **Patterns** — Catalog your pattern collection with style, difficulty, piece count, line drawings, photos, and a glass color plan. Tracks status from Wish List through Made, and shows how many projects have used each pattern. Bulk-select cards to add/remove tags, change status, or delete multiple patterns at once.
+- **Projects** — Manage active and completed work with a full journal, progress photos, deadline tracking, a materials cost calculator, and a commission pricing tool (markup + labor rate + hours = suggested price). Start a new project from a pattern template to pre-fill the glass plan. Bulk-select cards to add/remove tags, change status, or delete multiple projects at once.
 - **Supplies** — Inventory your copper foil, solder, flux, came, tools, and other consumables, grouped by category with reorder thresholds.
-- **Shopping List** — Capture items to buy with priority, estimated cost, and a purchased toggle. Items link back to glass or supply records. Marking a linked item as purchased prompts you to also mark the inventory record as In Stock.
+- **Shopping List** — Capture items to buy with priority, estimated cost, and a purchased toggle. Import glass directly from a pattern's glass plan with one click. Items link back to glass or supply records, so marking a linked item as purchased prompts you to also mark the inventory record as In Stock.
 - **Suppliers** — Contact list with star ratings, specialty tags, website links, and type filter (local / online).
 - **Stats & Reports** — Visual dashboards: glass by type, inventory status, project progress, completions per month, most-used glass, tag overview. No chart library — pure CSS.
 - **PDF / Image Converter** — Upload a PDF, PNG, or JPG and convert it to high-resolution PNG and/or traced SVG. Ideal for resizing patterns for vinyl cutters (Cricut, Silhouette) or light tables. Presets for line drawings and photos; custom tracer controls.
 - **Deadlines** — Active projects grouped by urgency: overdue, this week, this month, later.
 - **Search** — Full-text search (⌘K) across glass, patterns, projects, and supplies from anywhere in the app.
-- **Settings & Backup** — Export all data as JSON; restore from a JSON backup; CSV import/export for glass and supplies inventory. Configure how many days before a deadline to trigger a browser notification.
+- **Settings & Backup** — Export all data as JSON; restore from a JSON backup; CSV import/export for glass and supplies inventory. Save backups directly to a folder (iCloud Drive, Google Drive, or any local folder) using the File System Access API — pick once, then save with one click. Configure how many days before a deadline to trigger a browser notification.
 - **Dark Mode** — Full dark mode with no flash on load; toggle in Settings.
 
 ## Tech Stack
@@ -86,9 +86,15 @@ src/
 
 Data lives entirely in your browser. To back up:
 
+**One-time download:**
 1. Go to **Settings & Backup**
 2. Click **Export** to download `stainedglass-flow-backup-[date].json`
 3. To restore, drag that file onto the import area (or click to browse)
+
+**Folder backup (Chrome/Edge):**
+1. In Settings, click **Choose Folder** under "Backup to Folder"
+2. Pick an iCloud Drive, Google Drive, or local folder — the app remembers it for the session
+3. Click **Save Backup** any time to write a timestamped JSON file directly to that folder
 
 > **Note:** Importing replaces all existing data. Export first if you want to keep anything.
 
