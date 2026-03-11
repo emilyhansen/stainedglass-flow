@@ -730,11 +730,11 @@ export function ProjectsPage() {
   const handleAddToShopping = async (project: Project) => {
     const now = new Date().toISOString()
     for (const g of project.glassUsed) {
-      const shoppingItem: ShoppingItem = { id: nanoid(), name: g.glassName, type: 'Glass', priority: 'Medium', purchased: false, quantity: g.amount ?? '', notes: `Used in: ${project.name}`, createdAt: now }
+      const shoppingItem: ShoppingItem = { id: nanoid(), name: g.glassName, type: 'Glass', priority: 'Medium', purchased: false, quantity: g.amount ?? '', notes: `Used in: ${project.name}`, createdAt: now, updatedAt: now }
       await saveShopping(shoppingItem)
     }
     for (const s of project.suppliesUsed) {
-      const shoppingItem: ShoppingItem = { id: nanoid(), name: s.supplyName, type: 'Supply', priority: 'Medium', purchased: false, quantity: s.amount ?? '', notes: `Used in: ${project.name}`, createdAt: now }
+      const shoppingItem: ShoppingItem = { id: nanoid(), name: s.supplyName, type: 'Supply', priority: 'Medium', purchased: false, quantity: s.amount ?? '', notes: `Used in: ${project.name}`, createdAt: now, updatedAt: now }
       await saveShopping(shoppingItem)
     }
     setDeductProject(null)

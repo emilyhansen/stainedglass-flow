@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Layout } from './components/layout/Layout'
 import { DashboardPage } from './pages/DashboardPage'
@@ -11,9 +12,11 @@ import { SettingsPage } from './pages/SettingsPage'
 import { SearchPage } from './pages/SearchPage'
 import { DeadlinesPage } from './pages/DeadlinesPage'
 import { StatsPage } from './pages/StatsPage'
-import { PdfConverterPage } from './pages/PdfConverterPage'
 import { GalleryPage } from './pages/GalleryPage'
 import { HelpPage } from './pages/HelpPage'
+
+// Lazy-load heavy pages (pdfjs-dist adds ~2 MB)
+const PdfConverterPage = lazy(() => import('./pages/PdfConverterPage').then(m => ({ default: m.PdfConverterPage })))
 
 export default function App() {
   return (
@@ -31,7 +34,7 @@ export default function App() {
           <Route path="settings" element={<SettingsPage />} />
           <Route path="search" element={<SearchPage />} />
           <Route path="stats" element={<StatsPage />} />
-          <Route path="pdf-converter" element={<PdfConverterPage />} />
+          <Route path="pdf-converter" element={<Suspense fallback={<div className="p-8 text-center text-gray-400">Loading...</div>}><PdfConverterPage /></Suspense>} />
           <Route path="gallery" element={<GalleryPage />} />
           <Route path="help" element={<HelpPage />} />
         </Route>

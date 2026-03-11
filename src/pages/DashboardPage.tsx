@@ -73,11 +73,11 @@ export function DashboardPage() {
   const handleAddLowStockToShopping = async () => {
     const now = new Date().toISOString()
     for (const g of lowGlass) {
-      const item: ShoppingItem = { id: nanoid(), name: g.name || g.colorName, type: 'Glass', priority: g.status === 'Out of Stock' ? 'High' : 'Medium', purchased: false, notes: `Low/out of stock — ${g.type}`, createdAt: now }
+      const item: ShoppingItem = { id: nanoid(), name: g.name || g.colorName, type: 'Glass', priority: g.status === 'Out of Stock' ? 'High' : 'Medium', purchased: false, notes: `Low/out of stock — ${g.type}`, createdAt: now, updatedAt: now }
       await saveShopping(item)
     }
     for (const s of lowSupplies) {
-      const item: ShoppingItem = { id: nanoid(), name: s.name, type: 'Supply', priority: s.status === 'Out of Stock' ? 'High' : 'Medium', purchased: false, notes: `Low/out of stock — ${s.category}`, createdAt: now }
+      const item: ShoppingItem = { id: nanoid(), name: s.name, type: 'Supply', priority: s.status === 'Out of Stock' ? 'High' : 'Medium', purchased: false, notes: `Low/out of stock — ${s.category}`, createdAt: now, updatedAt: now }
       await saveShopping(item)
     }
     setAddedToShopping(true)
