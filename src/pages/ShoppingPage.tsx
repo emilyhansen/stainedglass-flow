@@ -13,7 +13,8 @@ const TYPES: ShoppingItemType[] = ['Glass', 'Supply', 'Pattern', 'Tool', 'Other'
 const PRIORITIES = ['High', 'Medium', 'Low'] as const
 
 function emptyItem(): ShoppingItem {
-  return { id: nanoid(), name: '', type: 'Glass', supplier: '', url: '', quantity: '', estimatedCost: undefined, priority: 'Medium', purchased: false, notes: '', createdAt: new Date().toISOString() }
+  const n = new Date().toISOString()
+  return { id: nanoid(), name: '', type: 'Glass', supplier: '', url: '', quantity: '', estimatedCost: undefined, priority: 'Medium', purchased: false, notes: '', createdAt: n, updatedAt: n }
 }
 
 function ShoppingForm({ initial, onSave, onCancel }: { initial: ShoppingItem; onSave: (i: ShoppingItem) => void; onCancel: () => void }) {
@@ -138,7 +139,7 @@ export function ShoppingPage() {
     }
     const now = new Date().toISOString()
     for (const entry of pattern.glassPlan) {
-      await saveShopping({ id: nanoid(), name: entry.glassName, type: 'Glass', priority: 'Medium', purchased: false, notes: `From pattern: ${pattern.name}`, linkedId: entry.glassId, createdAt: now })
+      await saveShopping({ id: nanoid(), name: entry.glassName, type: 'Glass', priority: 'Medium', purchased: false, notes: `From pattern: ${pattern.name}`, linkedId: entry.glassId, createdAt: now, updatedAt: now })
     }
     setItems(await getAllShopping())
     setPatternPickerOpen(false)

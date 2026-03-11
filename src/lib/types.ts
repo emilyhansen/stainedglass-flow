@@ -197,6 +197,7 @@ export interface ShoppingItem {
   notes?: string
   linkedId?: string
   createdAt: string
+  updatedAt: string
 }
 
 export type SupplierType = 'Online' | 'Local' | 'Both'

@@ -48,6 +48,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const navigate = useNavigate()
 
+  /* eslint-disable react-hooks/set-state-in-effect -- resetting state on open; no cascading risk since component returns null when closed */
   useEffect(() => {
     if (open) {
       setQuery('')
@@ -56,6 +57,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
       setTimeout(() => inputRef.current?.focus(), 30)
     }
   }, [open])
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const matchedPages = query.trim()
     ? PAGE_SHORTCUTS.filter(p => p.label.toLowerCase().includes(query.toLowerCase()))

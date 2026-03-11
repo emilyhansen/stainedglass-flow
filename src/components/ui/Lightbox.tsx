@@ -11,9 +11,8 @@ interface LightboxProps {
 export function Lightbox({ images, initialIndex, open, onClose }: LightboxProps) {
   const [index, setIndex] = useState(initialIndex)
 
-  useEffect(() => {
-    if (open) setIndex(initialIndex)
-  }, [open, initialIndex])
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing index on open; no cascading risk since component returns null when closed
+  useEffect(() => { if (open) setIndex(initialIndex) }, [open, initialIndex])
 
   useEffect(() => {
     if (!open) return

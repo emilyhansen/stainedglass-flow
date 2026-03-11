@@ -473,6 +473,7 @@ export function GlassPage() {
       notes: item.manufacturer ? `${item.manufacturer}${item.colorCode ? ` #${item.colorCode}` : ''}` : undefined,
       linkedId: item.id,
       createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     }
     await saveShopping(newItem)
     setShoppingToast(item.name || item.colorName)

@@ -105,7 +105,9 @@ export async function getAllShopping(): Promise<ShoppingItem[]> {
   return (await getDB()).getAll('shopping')
 }
 export async function saveShopping(item: ShoppingItem): Promise<void> {
-  await (await getDB()).put('shopping', item)
+  const db = await getDB()
+  item.updatedAt = now()
+  await db.put('shopping', item)
 }
 export async function deleteShopping(id: string): Promise<void> {
   await (await getDB()).delete('shopping', id)
@@ -142,15 +144,28 @@ export async function exportAllData(): Promise<object> {
 export async function importAllData(data: Record<string, unknown[]>): Promise<void> {
   const database = await getDB()
   const stores = ['glass', 'patterns', 'projects', 'supplies', 'shopping', 'suppliers'] as const
+
+  // Validate: every record must have an `id` string (required keyPath)
   for (const store of stores) {
-    const tx = database.transaction(store, 'readwrite')
-    await tx.store.clear()
+    const records = data[store] ?? []
+    for (const record of records) {
+      if (!record || typeof record !== 'object' || !('id' in record) || typeof (record as { id: unknown }).id !== 'string') {
+        throw new Error(`Invalid record in "${store}": each item must have a string "id" field`)
+      }
+    }
+  }
+
+  // Use a single readwrite transaction across all stores for atomicity
+  const tx = database.transaction([...stores], 'readwrite')
+  for (const store of stores) {
+    await tx.objectStore(store).clear()
     const records = (data[store] ?? []) as never[]
     for (const record of records) {
-      await tx.store.put(record)
+      await tx.objectStore(store).put(record)
     }
-    await tx.done
   }
+  await tx.done
+
   // Reset the module-level db reference so next call re-opens
   db = undefined as unknown as IDBPDatabase<StashDB>
 }

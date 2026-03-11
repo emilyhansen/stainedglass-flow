@@ -33,7 +33,12 @@ export function ImageUpload({ images, onChange, maxImages = 10, label = 'Photos'
         canvas.getContext('2d')!.drawImage(img, 0, 0, width, height)
         results[idx] = canvas.toDataURL('image/jpeg', 0.85)
         done++
-        if (done === toProcess.length) onChange([...images, ...results])
+        if (done === toProcess.length) onChange([...images, ...results.filter(Boolean)])
+      }
+      img.onerror = () => {
+        URL.revokeObjectURL(objectUrl)
+        done++
+        if (done === toProcess.length) onChange([...images, ...results.filter(Boolean)])
       }
       img.src = objectUrl
     })
