@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom'
 import {
   LayoutDashboard, Layers, BookOpen, FolderKanban,
   Package, ShoppingCart, Store, Settings, Sparkles, Search, CalendarClock,
-  BarChart3, FileImage, Images, X,
+  BarChart3, FileImage, Images, X, HelpCircle,
 } from 'lucide-react'
 
 const nav = [
@@ -85,6 +85,14 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         </nav>
 
         <div className="p-3 border-t border-gray-100 dark:border-gray-800 space-y-0.5">
+          <NavLink to="/help" className={({ isActive }) => linkCls(isActive)} onClick={onClose}>
+            {({ isActive }) => (
+              <>
+                <HelpCircle size={18} className={isActive ? 'text-violet-600 dark:text-violet-400' : 'text-gray-400 dark:text-gray-500'} />
+                Help
+              </>
+            )}
+          </NavLink>
           <NavLink to="/settings" className={({ isActive }) => linkCls(isActive)} onClick={onClose}>
             {({ isActive }) => (
               <>

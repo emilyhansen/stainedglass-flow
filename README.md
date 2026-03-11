@@ -15,6 +15,7 @@ A personal studio organizer for stained glass artists. Track your glass inventor
 - **Deadlines** — Active projects grouped by urgency: overdue, this week, this month, later.
 - **Search** — Full-text search (⌘K) across glass, patterns, projects, and supplies from anywhere in the app.
 - **Settings & Backup** — Export all data as JSON; restore from a JSON backup; CSV import/export for glass and supplies inventory. Save backups directly to a folder (iCloud Drive, Google Drive, or any local folder) using the File System Access API — pick once, then save with one click. Configure how many days before a deadline to trigger a browser notification.
+- **Help** — In-app documentation at `/help` covering every module and feature, written for new users. Accessible from the sidebar and via ⌘K.
 - **Dark Mode** — Full dark mode with no flash on load; toggle in Settings.
 
 ## Tech Stack
@@ -78,6 +79,7 @@ src/
     StatsPage.tsx
     PdfConverterPage.tsx
     GalleryPage.tsx
+    HelpPage.tsx
   types/
     imagetracerjs.d.ts  # type declaration for imagetracerjs
 ```
