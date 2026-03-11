@@ -136,7 +136,7 @@ export function StatsPage() {
 
   const barColors: Record<string, string> = {
     'In Stock': 'bg-green-400', 'Low': 'bg-yellow-400', 'Out of Stock': 'bg-red-400',
-    'In Stash': 'bg-teal-400', 'Wish List': 'bg-purple-400', 'In Progress': 'bg-blue-400',
+    'In Stash': 'bg-violet-400', 'Wish List': 'bg-purple-400', 'In Progress': 'bg-blue-400',
     'Made': 'bg-green-500', 'Planning': 'bg-gray-400', 'On Hold': 'bg-orange-400',
     'Completed': 'bg-green-500',
   }
@@ -145,7 +145,7 @@ export function StatsPage() {
     <div className="p-6 max-w-5xl">
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-          <BarChart3 size={24} className="text-teal-600" />
+          <BarChart3 size={24} className="text-violet-600" />
           Stats &amp; Reports
         </h1>
         <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">An overview of your stained glass studio inventory</p>
@@ -153,7 +153,7 @@ export function StatsPage() {
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
-        <StatCard icon={Layers} label="Glass Pieces" value={glass.length} sub={glassValue > 0 ? `$${glassValue.toFixed(0)} est.` : undefined} color="text-teal-600 bg-teal-50" />
+        <StatCard icon={Layers} label="Glass Pieces" value={glass.length} sub={glassValue > 0 ? `$${glassValue.toFixed(0)} est.` : undefined} color="text-violet-600 bg-violet-50" />
         <StatCard icon={BookOpen} label="Patterns" value={patterns.length} sub={`${patternStatusCounts['Made']} made`} color="text-purple-600 bg-purple-50" />
         <StatCard icon={FolderKanban} label="Projects" value={projects.length} sub={`${projectStatusCounts['Completed']} completed`} color="text-blue-600 bg-blue-50" />
         <StatCard icon={Package} label="Supplies" value={supplies.length} sub={suppliesValue > 0 ? `$${suppliesValue.toFixed(0)} est.` : undefined} color="text-orange-600 bg-orange-50" />
@@ -170,7 +170,7 @@ export function StatsPage() {
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm text-gray-700 dark:text-gray-300">{type}</span>
                 </div>
-                <Bar value={count} max={maxGlassType} color="bg-teal-400" />
+                <Bar value={count} max={maxGlassType} color="bg-violet-400" />
               </div>
             ))}
             {glassTypeCounts.length === 0 && <p className="text-sm text-gray-400 text-center py-4">No glass yet</p>}
@@ -270,7 +270,7 @@ export function StatsPage() {
                 <span className="text-xs font-medium text-gray-700 dark:text-gray-300">{count > 0 ? count : ''}</span>
                 <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-t-lg overflow-hidden flex flex-col justify-end" style={{ height: '80px' }}>
                   <div
-                    className="w-full bg-teal-400 rounded-t-lg transition-all duration-500"
+                    className="w-full bg-violet-400 rounded-t-lg transition-all duration-500"
                     style={{ height: `${maxCompletions > 0 ? (count / maxCompletions) * 100 : 0}%`, minHeight: count > 0 ? '4px' : '0' }}
                   />
                 </div>
@@ -357,7 +357,7 @@ export function StatsPage() {
                       <span className="text-sm text-gray-700">{item.name || item.colorName}</span>
                       <span className="text-xs text-gray-400">{count} project{count > 1 ? 's' : ''}</span>
                     </div>
-                    <Bar value={count} max={maxUsage} color="bg-teal-500" />
+                    <Bar value={count} max={maxUsage} color="bg-violet-500" />
                   </div>
                 ))}
               </div>

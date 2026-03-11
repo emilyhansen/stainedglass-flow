@@ -38,12 +38,12 @@ function SupplyCard({
   }
   return (
     <div
-      className={`bg-white dark:bg-gray-900 rounded-2xl border shadow-sm hover:shadow-md transition-all cursor-pointer group ${selected ? 'border-teal-400 ring-2 ring-teal-200' : 'border-gray-100 dark:border-gray-800 hover:border-teal-200 dark:hover:border-teal-700'}`}
+      className={`bg-white dark:bg-gray-900 rounded-2xl border shadow-sm hover:shadow-md transition-all cursor-pointer group ${selected ? 'border-violet-400 ring-2 ring-violet-200' : 'border-gray-100 dark:border-gray-800 hover:border-violet-200 dark:hover:border-violet-700'}`}
       onClick={selectMode ? onToggleSelect : onClick}
     >
       {selectMode && (
         <div className="absolute top-2 left-2 z-10">
-          <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center ${selected ? 'bg-teal-500 border-teal-500' : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600'}`}>
+          <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center ${selected ? 'bg-violet-500 border-violet-500' : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600'}`}>
             {selected && <svg viewBox="0 0 10 10" className="w-3 h-3 text-white fill-none stroke-current stroke-2"><polyline points="1.5,5 4,8 8.5,2" /></svg>}
           </div>
         </div>
@@ -65,7 +65,7 @@ function SupplyCard({
         <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{item.category}{item.brand ? ` · ${item.brand}` : ''}</p>
         {item.quantity && <p className="text-xs text-gray-500 dark:text-gray-400">{item.quantity}{item.unit ? ` ${item.unit}` : ''}</p>}
         {usageCount > 0 && (
-          <p className="text-xs text-teal-600 mt-1 font-medium">Used in {usageCount} project{usageCount !== 1 ? 's' : ''}</p>
+          <p className="text-xs text-violet-600 mt-1 font-medium">Used in {usageCount} project{usageCount !== 1 ? 's' : ''}</p>
         )}
         {item.tags.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-2">
@@ -275,7 +275,7 @@ export function SuppliesPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <Package size={24} className="text-teal-600" />
+            <Package size={24} className="text-violet-600" />
             Supplies
           </h1>
           {lowCount > 0 && (
@@ -288,7 +288,7 @@ export function SuppliesPage() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => { setSelectMode(m => !m); setSelectedIds(new Set()) }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-sm font-medium transition-colors ${selectMode ? 'bg-teal-50 dark:bg-teal-900/30 border-teal-300 text-teal-700 dark:text-teal-400' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-teal-300 dark:hover:border-teal-600'}`}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-sm font-medium transition-colors ${selectMode ? 'bg-violet-50 dark:bg-violet-900/30 border-violet-300 text-violet-700 dark:text-violet-400' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-violet-300 dark:hover:border-violet-600'}`}
           >
             <CheckSquare size={15} /> Select
           </button>
@@ -319,17 +319,17 @@ export function SuppliesPage() {
             <button
               key={tag}
               onClick={() => setFilterTag(filterTag === tag ? '' : tag)}
-              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${filterTag === tag ? 'bg-teal-600 text-white border-teal-600' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-teal-400'}`}
+              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${filterTag === tag ? 'bg-violet-600 text-white border-violet-600' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-violet-400'}`}
             >{tag}</button>
           ))}
         </div>
       )}
 
       {selectMode && (
-        <div className="flex items-center gap-2 mb-4 p-3 bg-teal-50 dark:bg-teal-900/20 rounded-xl border border-teal-100 dark:border-teal-800">
-          <CheckSquare size={15} className="text-teal-600" />
-          <span className="text-sm text-teal-700 dark:text-teal-400 font-medium">{selectedIds.size} selected — click items to select</span>
-          <button onClick={exitSelectMode} className="ml-auto text-teal-500 hover:text-teal-700"><X size={14} /></button>
+        <div className="flex items-center gap-2 mb-4 p-3 bg-violet-50 dark:bg-violet-900/20 rounded-xl border border-violet-100 dark:border-violet-800">
+          <CheckSquare size={15} className="text-violet-600" />
+          <span className="text-sm text-violet-700 dark:text-violet-400 font-medium">{selectedIds.size} selected — click items to select</span>
+          <button onClick={exitSelectMode} className="ml-auto text-violet-500 hover:text-violet-700"><X size={14} /></button>
         </div>
       )}
 

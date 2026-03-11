@@ -79,7 +79,7 @@ export function SettingsPage() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `glass-stash-backup-${new Date().toISOString().slice(0, 10)}.json`
+    a.download = `stainedglass-flow-backup-${new Date().toISOString().slice(0, 10)}.json`
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -155,7 +155,7 @@ export function SettingsPage() {
   return (
     <div className="p-6 max-w-2xl">
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2 mb-8">
-        <Settings size={24} className="text-teal-600" />
+        <Settings size={24} className="text-violet-600" />
         Settings
       </h1>
 
@@ -163,7 +163,7 @@ export function SettingsPage() {
       <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm p-6 mb-5">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            {darkMode ? <Moon size={20} className="text-teal-400" /> : <Sun size={20} className="text-amber-500" />}
+            {darkMode ? <Moon size={20} className="text-violet-400" /> : <Sun size={20} className="text-amber-500" />}
             <div>
               <h2 className="text-base font-semibold text-gray-900 dark:text-white mb-0.5">Appearance</h2>
               <p className="text-sm text-gray-500 dark:text-gray-400">{darkMode ? 'Dark mode is on' : 'Light mode is on'}</p>
@@ -171,7 +171,7 @@ export function SettingsPage() {
           </div>
           <button
             onClick={toggleDarkMode}
-            className={`relative w-12 h-6 rounded-full transition-colors shrink-0 ${darkMode ? 'bg-teal-600' : 'bg-gray-300'}`}
+            className={`relative w-12 h-6 rounded-full transition-colors shrink-0 ${darkMode ? 'bg-violet-600' : 'bg-gray-300'}`}
             aria-label="Toggle dark mode"
           >
             <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${darkMode ? 'translate-x-6' : 'translate-x-0'}`} />
@@ -185,7 +185,7 @@ export function SettingsPage() {
           <div>
             <h2 className="text-base font-semibold text-gray-900 dark:text-white mb-1">Export / Backup</h2>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Download all your Glass Stash data as a JSON file. Keep this somewhere safe — it's your full backup including all glass, patterns, projects, supplies, and suppliers.
+              Download all your StainedGlass Flow data as a JSON file. Keep this somewhere safe — it's your full backup including all glass, patterns, projects, supplies, and suppliers.
             </p>
           </div>
           <Button onClick={handleExport} className="shrink-0">
@@ -250,7 +250,7 @@ export function SettingsPage() {
         )}
 
         <div
-          className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-8 text-center hover:border-teal-400 transition-colors cursor-pointer"
+          className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-8 text-center hover:border-violet-400 transition-colors cursor-pointer"
           onClick={() => fileRef.current?.click()}
           onDragOver={e => { e.preventDefault() }}
           onDrop={e => {
@@ -273,7 +273,7 @@ export function SettingsPage() {
         />
 
         {importing && (
-          <p className="text-sm text-teal-600 text-center mt-3 animate-pulse">Importing data...</p>
+          <p className="text-sm text-violet-600 text-center mt-3 animate-pulse">Importing data...</p>
         )}
       </div>
 
@@ -300,7 +300,7 @@ export function SettingsPage() {
         )}
 
         <div
-          className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-6 text-center hover:border-teal-400 transition-colors cursor-pointer"
+          className="border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl p-6 text-center hover:border-violet-400 transition-colors cursor-pointer"
           onClick={() => csvRef.current?.click()}
           onDragOver={e => e.preventDefault()}
           onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) handleCsvImport(f) }}
@@ -314,7 +314,7 @@ export function SettingsPage() {
 
       {/* About */}
       <div className="mt-6 text-center text-xs text-gray-400 dark:text-gray-600">
-        <p>Glass Stash v1.0 · Data stored locally in your browser</p>
+        <p>StainedGlass Flow v1.0 · Data stored locally in your browser</p>
         <p className="mt-0.5">Export regularly to keep your data safe</p>
       </div>
     </div>

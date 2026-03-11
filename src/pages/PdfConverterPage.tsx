@@ -206,7 +206,7 @@ export function PdfConverterPage() {
     <div className="p-6 max-w-5xl">
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-          <FileImage size={24} className="text-teal-600" />
+          <FileImage size={24} className="text-violet-600" />
           PDF / Image Converter
         </h1>
         <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Convert PDF patterns or images to PNG or SVG for vinyl cutters and light tables</p>
@@ -214,7 +214,7 @@ export function PdfConverterPage() {
 
       {/* Upload area */}
       <div
-        className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-2xl p-8 mb-6 text-center cursor-pointer hover:border-teal-300 hover:bg-teal-50/30 dark:hover:bg-teal-900/10 transition-colors"
+        className="border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-2xl p-8 mb-6 text-center cursor-pointer hover:border-violet-300 hover:bg-violet-50/30 dark:hover:bg-violet-900/10 transition-colors"
         onClick={() => fileInputRef.current?.click()}
         onDrop={handleDrop}
         onDragOver={e => e.preventDefault()}
@@ -241,7 +241,7 @@ export function PdfConverterPage() {
               <button
                 key={s}
                 onClick={() => setScale(s)}
-                className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${scale === s ? 'bg-teal-600 text-white border-teal-600' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-teal-300'}`}
+                className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${scale === s ? 'bg-violet-600 text-white border-violet-600' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-violet-300'}`}
               >
                 {s === 1 ? '96 dpi' : s === 2 ? '192 dpi' : '288 dpi'}
               </button>
@@ -256,7 +256,7 @@ export function PdfConverterPage() {
               <button
                 key={f}
                 onClick={() => setOutputFormat(f)}
-                className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${outputFormat === f ? 'bg-teal-600 text-white border-teal-600' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-teal-300'}`}
+                className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${outputFormat === f ? 'bg-violet-600 text-white border-violet-600' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-violet-300'}`}
               >
                 {f === 'both' ? 'PNG + SVG' : f.toUpperCase()}
               </button>
@@ -290,7 +290,7 @@ export function PdfConverterPage() {
                       key={p.id}
                       onClick={() => setTracerPreset(p.id)}
                       title={p.desc}
-                      className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${tracerPreset === p.id ? 'bg-teal-600 text-white border-teal-600' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-teal-300'}`}
+                      className={`px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors ${tracerPreset === p.id ? 'bg-violet-600 text-white border-violet-600' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-violet-300'}`}
                     >
                       {p.label}
                     </button>
@@ -307,14 +307,14 @@ export function PdfConverterPage() {
                     { key: 'blurradius', label: 'Blur Radius', min: 0, max: 5 },
                   ] as { key: keyof TracerOptions; label: string; min: number; max: number }[]).map(({ key, label, min, max }) => (
                     <div key={key}>
-                      <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">{label}: <span className="text-teal-700 dark:text-teal-400 font-semibold">{customOpts[key] as number}</span></label>
+                      <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">{label}: <span className="text-violet-700 dark:text-violet-400 font-semibold">{customOpts[key] as number}</span></label>
                       <input
                         type="range"
                         min={min}
                         max={max}
                         value={customOpts[key] as number}
                         onChange={e => setCustomOpts(o => ({ ...o, [key]: +e.target.value }))}
-                        className="w-full accent-teal-600"
+                        className="w-full accent-violet-600"
                       />
                     </div>
                   ))}
@@ -338,7 +338,7 @@ export function PdfConverterPage() {
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm p-6 mb-6">
           <p className="text-sm font-medium text-gray-700 dark:text-gray-200 mb-3">Converting… {progress}%</p>
           <div className="h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
-            <div className="h-full bg-teal-500 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+            <div className="h-full bg-violet-500 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
         </div>
       )}
@@ -361,7 +361,7 @@ export function PdfConverterPage() {
               {pages.length > 1 && wantPng && (
                 <button
                   onClick={downloadAllPng}
-                  className="flex items-center gap-1.5 text-sm bg-teal-600 hover:bg-teal-700 text-white px-3 py-1.5 rounded-lg transition-colors font-medium"
+                  className="flex items-center gap-1.5 text-sm bg-violet-600 hover:bg-violet-700 text-white px-3 py-1.5 rounded-lg transition-colors font-medium"
                 >
                   <Download size={14} /> All PNG
                 </button>
@@ -393,7 +393,7 @@ export function PdfConverterPage() {
                   {wantPng && (
                     <button
                       onClick={() => downloadPng(currentPage)}
-                      className="flex items-center gap-1.5 text-sm bg-teal-600 hover:bg-teal-500 text-white px-3 py-1.5 rounded-lg transition-colors"
+                      className="flex items-center gap-1.5 text-sm bg-violet-600 hover:bg-violet-500 text-white px-3 py-1.5 rounded-lg transition-colors"
                     >
                       <Download size={14} /> PNG
                     </button>
@@ -458,13 +458,13 @@ export function PdfConverterPage() {
             {pages.map((page, idx) => (
               <div
                 key={page.pageNum}
-                className={`group relative rounded-xl overflow-hidden border cursor-pointer transition-all hover:shadow-md ${selectedPage === idx ? 'border-teal-400 ring-2 ring-teal-200' : 'border-gray-200 dark:border-gray-700 hover:border-teal-300 dark:hover:border-teal-600'}`}
+                className={`group relative rounded-xl overflow-hidden border cursor-pointer transition-all hover:shadow-md ${selectedPage === idx ? 'border-violet-400 ring-2 ring-violet-200' : 'border-gray-200 dark:border-gray-700 hover:border-violet-300 dark:hover:border-violet-600'}`}
                 onClick={() => setSelectedPage(idx)}
               >
                 <img src={page.dataUrl} alt={`Page ${page.pageNum}`} className="w-full aspect-[3/4] object-contain bg-white" />
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2 flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   {wantPng && (
-                    <button onClick={e => { e.stopPropagation(); downloadPng(page) }} className="text-white hover:text-teal-300 transition-colors" title="Download PNG">
+                    <button onClick={e => { e.stopPropagation(); downloadPng(page) }} className="text-white hover:text-violet-300 transition-colors" title="Download PNG">
                       <Download size={13} />
                     </button>
                   )}
@@ -491,11 +491,11 @@ export function PdfConverterPage() {
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm p-5">
           <h3 className="font-semibold text-gray-900 dark:text-white mb-3 text-sm">How to use</h3>
           <ol className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-            <li className="flex gap-2"><span className="text-teal-600 font-bold">1.</span> Upload a PDF, PNG, or JPG pattern file above</li>
-            <li className="flex gap-2"><span className="text-teal-600 font-bold">2.</span> Choose output format: PNG, SVG, or both</li>
-            <li className="flex gap-2"><span className="text-teal-600 font-bold">3.</span> For SVG: pick "Simple" preset for line drawings (best for Cricut/Silhouette), or "Detailed" for photos</li>
-            <li className="flex gap-2"><span className="text-teal-600 font-bold">4.</span> Choose resolution (192 dpi recommended for printing)</li>
-            <li className="flex gap-2"><span className="text-teal-600 font-bold">5.</span> Download individual pages or all at once</li>
+            <li className="flex gap-2"><span className="text-violet-600 font-bold">1.</span> Upload a PDF, PNG, or JPG pattern file above</li>
+            <li className="flex gap-2"><span className="text-violet-600 font-bold">2.</span> Choose output format: PNG, SVG, or both</li>
+            <li className="flex gap-2"><span className="text-violet-600 font-bold">3.</span> For SVG: pick "Simple" preset for line drawings (best for Cricut/Silhouette), or "Detailed" for photos</li>
+            <li className="flex gap-2"><span className="text-violet-600 font-bold">4.</span> Choose resolution (192 dpi recommended for printing)</li>
+            <li className="flex gap-2"><span className="text-violet-600 font-bold">5.</span> Download individual pages or all at once</li>
           </ol>
           <p className="text-xs text-gray-400 dark:text-gray-500 mt-4">All processing happens locally in your browser — no files are uploaded anywhere.</p>
         </div>

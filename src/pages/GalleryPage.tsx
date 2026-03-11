@@ -72,7 +72,7 @@ export function GalleryPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <Images size={24} className="text-teal-600" />
+            <Images size={24} className="text-violet-600" />
             Project Gallery
           </h1>
           {hasPhotos && (
@@ -113,7 +113,7 @@ export function GalleryPage() {
           {filtered.map((item, idx) => (
             <div
               key={`${item.projectId}-${item.photoIndex}-${idx}`}
-              className="break-inside-avoid rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-teal-200 dark:hover:border-teal-700 transition-all cursor-zoom-in group relative"
+              className="break-inside-avoid rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-violet-200 dark:hover:border-violet-700 transition-all cursor-zoom-in group relative"
               onClick={() => { setLightboxImages(item.allPhotos); setLightboxIndex(item.photoIndex) }}
             >
               <img

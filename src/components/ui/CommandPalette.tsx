@@ -101,7 +101,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 
   const typeIcon = (type: FlatResult['type']) => {
     switch (type) {
-      case 'Glass':   return <Layers size={12} className="text-teal-600" />
+      case 'Glass':   return <Layers size={12} className="text-violet-600" />
       case 'Pattern': return <BookOpen size={12} className="text-purple-600" />
       case 'Project': return <FolderKanban size={12} className="text-blue-600" />
       case 'Supply':  return <Package size={12} className="text-orange-600" />
@@ -151,7 +151,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
               {results.map((item, i) => (
                 <button
                   key={item.id}
-                  className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${i === selectedIndex ? 'bg-teal-50 dark:bg-teal-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-800'}`}
+                  className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${i === selectedIndex ? 'bg-violet-50 dark:bg-violet-900/20' : 'hover:bg-gray-50 dark:hover:bg-gray-800'}`}
                   onClick={() => selectItem(item)}
                   onMouseEnter={() => setSelectedIndex(i)}
                 >

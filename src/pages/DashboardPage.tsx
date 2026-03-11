@@ -95,7 +95,7 @@ export function DashboardPage() {
     <div className="p-6 max-w-5xl">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Welcome to Glass Stash</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Welcome to StainedGlass Flow</h1>
         <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Your stained glass studio organizer</p>
       </div>
 
@@ -127,13 +127,13 @@ export function DashboardPage() {
       {/* Stat cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
         {[
-          { to: '/glass', icon: Layers, label: 'Glass Sheets', value: stats?.glass.total ?? '—', sub: stats?.glass.low ? `${stats.glass.low} low` : undefined, color: 'text-teal-600 bg-teal-50' },
+          { to: '/glass', icon: Layers, label: 'Glass Sheets', value: stats?.glass.total ?? '—', sub: stats?.glass.low ? `${stats.glass.low} low` : undefined, color: 'text-violet-600 bg-violet-50' },
           { to: '/patterns', icon: BookOpen, label: 'Patterns', value: stats?.patterns.total ?? '—', sub: stats?.patterns.wishList ? `${stats.patterns.wishList} on wish list` : undefined, color: 'text-purple-600 bg-purple-50' },
           { to: '/projects', icon: FolderKanban, label: 'Projects', value: stats?.projects.total ?? '—', sub: stats?.projects.inProgress ? `${stats.projects.inProgress} in progress` : undefined, color: 'text-blue-600 bg-blue-50' },
           { to: '/supplies', icon: Package, label: 'Supplies', value: stats?.supplies.total ?? '—', sub: stats?.supplies.low ? `${stats.supplies.low} low` : undefined, color: 'text-orange-600 bg-orange-50' },
           { to: '/shopping', icon: ShoppingCart, label: 'Shopping', value: stats?.shopping.pending ?? '—', sub: 'items to buy', color: 'text-rose-600 bg-rose-50' },
         ].map(({ to, icon: Icon, label, value, sub, color }) => (
-          <Link key={to} to={to} className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-teal-200 dark:hover:border-teal-700 transition-all p-4 group">
+          <Link key={to} to={to} className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-violet-200 dark:hover:border-violet-700 transition-all p-4 group">
             <div className={`w-9 h-9 rounded-xl ${color} flex items-center justify-center mb-3`}>
               <Icon size={18} className={color.split(' ')[0]} />
             </div>
@@ -149,7 +149,7 @@ export function DashboardPage() {
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-gray-900 dark:text-white">Active Projects</h2>
-            <Link to="/projects" className="text-xs text-teal-600 hover:text-teal-700 flex items-center gap-0.5">
+            <Link to="/projects" className="text-xs text-violet-600 hover:text-violet-700 flex items-center gap-0.5">
               View all <ChevronRight size={12} />
             </Link>
           </div>
@@ -157,7 +157,7 @@ export function DashboardPage() {
             <div className="text-center py-8">
               <FolderKanban size={28} className="text-gray-200 mx-auto mb-2" />
               <p className="text-sm text-gray-400">No active projects</p>
-              <Link to="/projects" className="mt-3 inline-flex items-center gap-1 text-xs text-teal-600 hover:text-teal-700 font-medium">
+              <Link to="/projects" className="mt-3 inline-flex items-center gap-1 text-xs text-violet-600 hover:text-violet-700 font-medium">
                 <Plus size={12} /> Start a project
               </Link>
             </div>
@@ -196,10 +196,10 @@ export function DashboardPage() {
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-gray-900 dark:text-white flex items-center gap-1.5">
-              <CalendarClock size={16} className="text-teal-600" />
+              <CalendarClock size={16} className="text-violet-600" />
               Deadlines
             </h2>
-            <Link to="/deadlines" className="text-xs text-teal-600 hover:text-teal-700 flex items-center gap-0.5">
+            <Link to="/deadlines" className="text-xs text-violet-600 hover:text-violet-700 flex items-center gap-0.5">
               View all <ChevronRight size={12} />
             </Link>
           </div>
@@ -215,7 +215,7 @@ export function DashboardPage() {
                 const daysLeft = differenceInCalendarDays(new Date(project.deadline!), today)
                 const isOverdue = daysLeft < 0
                 const urgencyText = isOverdue ? `${Math.abs(daysLeft)}d overdue` : daysLeft === 0 ? 'Today' : daysLeft === 1 ? 'Tomorrow' : `${daysLeft}d left`
-                const urgencyColor = isOverdue ? 'text-red-600' : daysLeft <= 7 ? 'text-amber-600' : 'text-teal-600'
+                const urgencyColor = isOverdue ? 'text-red-600' : daysLeft <= 7 ? 'text-amber-600' : 'text-violet-600'
                 return (
                   <Link key={project.id} to="/deadlines" className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                     <div className="w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-800 overflow-hidden shrink-0 flex items-center justify-center">
@@ -241,7 +241,7 @@ export function DashboardPage() {
           <h2 className="font-semibold text-gray-900 dark:text-white mb-4">Quick Add</h2>
           <div className="grid grid-cols-2 gap-2">
             {[
-              { to: '/glass', icon: Layers, label: 'Add Glass', color: 'bg-teal-50 text-teal-700 hover:bg-teal-100' },
+              { to: '/glass', icon: Layers, label: 'Add Glass', color: 'bg-violet-50 text-violet-700 hover:bg-violet-100' },
               { to: '/patterns', icon: BookOpen, label: 'Add Pattern', color: 'bg-purple-50 text-purple-700 hover:bg-purple-100' },
               { to: '/projects', icon: FolderKanban, label: 'New Project', color: 'bg-blue-50 text-blue-700 hover:bg-blue-100' },
               { to: '/supplies', icon: Package, label: 'Add Supply', color: 'bg-orange-50 text-orange-700 hover:bg-orange-100' },
@@ -263,7 +263,7 @@ export function DashboardPage() {
               <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Pattern Library</p>
               <div className="grid grid-cols-3 gap-2 text-center">
                 {[
-                  { label: 'In Stash', value: stats.patterns.inStash, color: 'text-teal-700 dark:text-teal-400' },
+                  { label: 'In Stash', value: stats.patterns.inStash, color: 'text-violet-700 dark:text-violet-400' },
                   { label: 'Wish List', value: stats.patterns.wishList, color: 'text-purple-700 dark:text-purple-400' },
                   { label: 'Made', value: stats.patterns.made, color: 'text-green-700 dark:text-green-400' },
                 ].map(({ label, value, color }) => (

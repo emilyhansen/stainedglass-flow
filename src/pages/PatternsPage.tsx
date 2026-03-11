@@ -30,7 +30,7 @@ function PatternCard({ item, usageCount, allGlass, onClick, onPhotoClick }: { it
   }, [item.glassPlan, glassMap])
   const allImages = [...item.photos, ...item.lineDrawings]
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-teal-200 dark:hover:border-teal-700 transition-all cursor-pointer" onClick={onClick}>
+    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-violet-200 dark:hover:border-violet-700 transition-all cursor-pointer" onClick={onClick}>
       <div
         className="aspect-[4/3] bg-gradient-to-br from-gray-100 dark:from-gray-800 to-gray-200 dark:to-gray-700 rounded-t-2xl overflow-hidden"
         onClick={allImages.length > 0 && onPhotoClick ? e => { e.stopPropagation(); onPhotoClick(allImages, 0) } : undefined}
@@ -63,7 +63,7 @@ function PatternCard({ item, usageCount, allGlass, onClick, onPhotoClick }: { it
           <p className="text-xs text-emerald-600 mt-1 font-medium">Est. glass: ${planCost.toFixed(2)}</p>
         )}
         {usageCount > 0 && (
-          <p className="text-xs text-teal-600 mt-1 font-medium">Used in {usageCount} project{usageCount !== 1 ? 's' : ''}</p>
+          <p className="text-xs text-violet-600 mt-1 font-medium">Used in {usageCount} project{usageCount !== 1 ? 's' : ''}</p>
         )}
       </div>
     </div>
@@ -137,7 +137,7 @@ function GlassPlanSection({ plan, allGlass, onChange }: {
             <div className="absolute z-10 top-full left-0 right-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg mt-1 overflow-hidden">
               {suggestions.map(g => (
                 <button key={g.id} type="button" onClick={() => addEntry(g)}
-                  className="w-full flex items-center gap-2 px-3 py-2 hover:bg-teal-50 dark:hover:bg-teal-900/30 text-sm text-left">
+                  className="w-full flex items-center gap-2 px-3 py-2 hover:bg-violet-50 dark:hover:bg-violet-900/30 text-sm text-left">
                   {g.photos[0] && <img src={g.photos[0]} alt="" className="w-6 h-6 rounded object-cover" />}
                   <span className="flex-1 truncate">{g.name || g.colorName}</span>
                   <span className="text-xs text-gray-400 dark:text-gray-500">{g.type}</span>
@@ -302,7 +302,7 @@ export function PatternsPage() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-          <BookOpen size={24} className="text-teal-600" />
+          <BookOpen size={24} className="text-violet-600" />
           Patterns
         </h1>
         <Button onClick={() => { setEditing(emptyPattern()); setModalOpen(true) }}>
@@ -333,7 +333,7 @@ export function PatternsPage() {
         <div className="flex flex-wrap gap-1.5 mb-4">
           {allTags.map(tag => (
             <button key={tag} onClick={() => setFilterTag(filterTag === tag ? '' : tag)}
-              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${filterTag === tag ? 'bg-teal-600 text-white border-teal-600' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-teal-400'}`}
+              className={`text-xs px-2.5 py-1 rounded-full border transition-colors ${filterTag === tag ? 'bg-violet-600 text-white border-violet-600' : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-violet-400'}`}
             >{tag}</button>
           ))}
         </div>

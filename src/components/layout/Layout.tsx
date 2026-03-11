@@ -41,7 +41,7 @@ export function Layout() {
           >
             <Menu size={20} />
           </button>
-          <span className="font-bold text-gray-900 dark:text-white text-sm">Glass Stash</span>
+          <span className="font-bold text-gray-900 dark:text-white text-sm">StainedGlass Flow</span>
           <div className="flex-1" />
           <button
             onClick={() => setPaletteOpen(true)}

@@ -63,7 +63,7 @@ export function ImageUpload({ images, onChange, maxImages = 10, label = 'Photos'
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
-            className="w-20 h-20 rounded-lg border-2 border-dashed border-gray-300 hover:border-teal-400 flex flex-col items-center justify-center gap-1 text-gray-400 hover:text-teal-500 transition-colors"
+            className="w-20 h-20 rounded-lg border-2 border-dashed border-gray-300 hover:border-violet-400 flex flex-col items-center justify-center gap-1 text-gray-400 hover:text-violet-500 transition-colors"
           >
             <Camera size={18} />
             <span className="text-xs">Add</span>

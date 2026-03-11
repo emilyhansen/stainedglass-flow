@@ -38,7 +38,7 @@ function StarRating({ value, onChange }: { value?: number; onChange: (v: number)
 function SupplierCard({ item, onClick, onDelete: _onDelete }: { item: Supplier; onClick: () => void; onDelete: () => void }) {
   const typeIcon = item.type === 'Online' ? <Globe size={12} /> : item.type === 'Local' ? <MapPin size={12} /> : <Store size={12} />
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-teal-200 dark:hover:border-teal-700 transition-all cursor-pointer" onClick={onClick}>
+    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-violet-200 dark:hover:border-violet-700 transition-all cursor-pointer" onClick={onClick}>
       <div className="h-32 bg-gradient-to-br from-gray-100 dark:from-gray-800 to-gray-200 dark:to-gray-700 rounded-t-2xl overflow-hidden">
         {item.photos[0] ? (
           <img src={item.photos[0]} alt={item.name} className="w-full h-full object-cover" />
@@ -57,7 +57,7 @@ function SupplierCard({ item, onClick, onDelete: _onDelete }: { item: Supplier; 
         {item.specialty.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-1.5">
             {item.specialty.slice(0, 3).map(s => (
-              <span key={s} className="text-xs bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 px-1.5 py-0.5 rounded-full">{s}</span>
+              <span key={s} className="text-xs bg-violet-50 dark:bg-violet-900/30 text-violet-700 dark:text-violet-400 px-1.5 py-0.5 rounded-full">{s}</span>
             ))}
           </div>
         )}
@@ -74,7 +74,7 @@ function SupplierCard({ item, onClick, onDelete: _onDelete }: { item: Supplier; 
             target="_blank"
             rel="noopener noreferrer"
             onClick={e => e.stopPropagation()}
-            className="flex items-center gap-1 text-xs text-teal-600 hover:text-teal-700 mt-1.5 truncate"
+            className="flex items-center gap-1 text-xs text-violet-600 hover:text-violet-700 mt-1.5 truncate"
           >
             <ExternalLink size={10} />
             {item.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}
@@ -128,7 +128,7 @@ function SupplierForm({ initial, onSave, onCancel }: { initial: Supplier; onSave
               onClick={() => toggleSpecialty(s)}
               className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
                 form.specialty.includes(s)
-                  ? 'bg-teal-600 text-white'
+                  ? 'bg-violet-600 text-white'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -205,7 +205,7 @@ export function SuppliersPage() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-          <Store size={24} className="text-teal-600" />
+          <Store size={24} className="text-violet-600" />
           Suppliers
         </h1>
         <Button onClick={() => { setEditing(emptySupplier()); setModalOpen(true) }}>

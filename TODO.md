@@ -1,4 +1,4 @@
-# Glass Stash — TODO
+# StainedGlass Flow — TODO
 
 Items are roughly prioritized within each section.
 
@@ -54,7 +54,7 @@ Items are roughly prioritized within each section.
 
 ## Known Issues / Tech Debt
 
-- [ ] **MEMORY.md project path** — `~/.claude/projects/.../memory/MEMORY.md` still references the old path `/Users/emily.hansen/src/github/stash`. The real path is `/Users/emily.hansen/src/github-personal/stainedglass-stash`. Update if Claude sessions are starting with the wrong working directory.
+- [ ] **MEMORY.md project path** — `~/.claude/projects/.../memory/MEMORY.md` may reference an old path or old app name. The real path is `/Users/emily.hansen/src/github-personal/stainedglass-stash`. Update if Claude sessions are starting with the wrong working directory.
 
 - [ ] **`SupplierCard` / `SupplyCard` delete buttons** — Both components accept an `onDelete` prop but don't currently render a delete button in their card body (the prop is unused, suppressed with `_onDelete`). Add the hover-reveal delete button pattern (already used in GlassCard) to be consistent.
 

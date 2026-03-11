@@ -40,7 +40,7 @@ export function SearchPage() {
   return (
     <div className="p-6 max-w-3xl">
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2 mb-6">
-        <Search size={24} className="text-teal-600" />
+        <Search size={24} className="text-violet-600" />
         Search
       </h1>
 
@@ -63,7 +63,7 @@ export function SearchPage() {
         ) : (
           <div className="space-y-6">
             {results.glass.length > 0 && (
-              <Section title="Glass Inventory" icon={<Layers size={15} className="text-teal-600" />} count={results.glass.length}>
+              <Section title="Glass Inventory" icon={<Layers size={15} className="text-violet-600" />} count={results.glass.length}>
                 {results.glass.map(item => (
                   <ResultRow key={item.id} photo={item.photos[0]} title={item.name || item.colorName} sub={`${item.type}${item.manufacturer ? ` · ${item.manufacturer}` : ''}`} badge={item.status} onClick={() => navigate('/glass')} />
                 ))}
