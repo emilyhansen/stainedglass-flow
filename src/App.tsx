@@ -13,6 +13,7 @@ import { DeadlinesPage } from './pages/DeadlinesPage'
 import { StatsPage } from './pages/StatsPage'
 import { PdfConverterPage } from './pages/PdfConverterPage'
 import { GalleryPage } from './pages/GalleryPage'
+import { HelpPage } from './pages/HelpPage'
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="stats" element={<StatsPage />} />
           <Route path="pdf-converter" element={<PdfConverterPage />} />
           <Route path="gallery" element={<GalleryPage />} />
+          <Route path="help" element={<HelpPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

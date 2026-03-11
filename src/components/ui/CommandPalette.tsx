@@ -1,8 +1,28 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Search, Layers, BookOpen, FolderKanban, Package, X } from 'lucide-react'
+import {
+  Search, Layers, BookOpen, FolderKanban, Package, X,
+  LayoutDashboard, ShoppingCart, Store, BarChart3, FileImage,
+  Images, CalendarClock, Settings, HelpCircle,
+} from 'lucide-react'
 import { getAllGlass, getAllPatterns, getAllProjects, getAllSupplies } from '../../lib/db'
 import { Badge } from './Badge'
+
+const PAGE_SHORTCUTS = [
+  { label: 'Dashboard',       route: '/',             icon: LayoutDashboard },
+  { label: 'Glass Inventory', route: '/glass',        icon: Layers },
+  { label: 'Patterns',        route: '/patterns',     icon: BookOpen },
+  { label: 'Projects',        route: '/projects',     icon: FolderKanban },
+  { label: 'Gallery',         route: '/gallery',      icon: Images },
+  { label: 'Deadlines',       route: '/deadlines',    icon: CalendarClock },
+  { label: 'Supplies',        route: '/supplies',     icon: Package },
+  { label: 'Shopping List',   route: '/shopping',     icon: ShoppingCart },
+  { label: 'Suppliers',       route: '/suppliers',    icon: Store },
+  { label: 'Stats & Reports', route: '/stats',        icon: BarChart3 },
+  { label: 'PDF Converter',   route: '/pdf-converter',icon: FileImage },
+  { label: 'Settings',        route: '/settings',     icon: Settings },
+  { label: 'Help',            route: '/help',         icon: HelpCircle },
+]
 
 type FlatResult = {
   id: string
@@ -36,6 +56,10 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
       setTimeout(() => inputRef.current?.focus(), 30)
     }
   }, [open])
+
+  const matchedPages = query.trim()
+    ? PAGE_SHORTCUTS.filter(p => p.label.toLowerCase().includes(query.toLowerCase()))
+    : []
 
   const doSearch = useCallback(async (q: string) => {
     if (!q.trim()) { setResults([]); setLoading(false); return }
@@ -143,8 +167,28 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
           {!loading && !query && (
             <p className="text-sm text-gray-400 text-center py-8">Type to search your entire stash</p>
           )}
-          {!loading && query && results.length === 0 && (
+          {!loading && query && results.length === 0 && matchedPages.length === 0 && (
             <p className="text-sm text-gray-500 text-center py-8">No results for "{query}"</p>
+          )}
+          {!loading && matchedPages.length > 0 && (
+            <div className="py-1.5 border-b border-gray-100 dark:border-gray-800">
+              <p className="px-4 pt-1.5 pb-1 text-xs font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider">Pages</p>
+              {matchedPages.map(page => {
+                const PageIcon = page.icon
+                return (
+                  <button
+                    key={page.route}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                    onClick={() => { navigate(page.route); onClose() }}
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-violet-50 dark:bg-violet-900/30 flex items-center justify-center shrink-0">
+                      <PageIcon size={15} className="text-violet-600 dark:text-violet-400" />
+                    </div>
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">{page.label}</p>
+                  </button>
+                )
+              })}
+            </div>
           )}
           {!loading && results.length > 0 && (
             <div className="py-1.5">
@@ -176,7 +220,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
         </div>
 
         {/* Footer hints */}
-        {results.length > 0 && (
+        {(results.length > 0 || matchedPages.length > 0) && (
           <div className="px-4 py-2 border-t border-gray-100 dark:border-gray-800 flex items-center gap-4 text-xs text-gray-400 dark:text-gray-500">
             <span>↑↓ navigate</span>
             <span>↵ open</span>
