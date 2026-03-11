@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Plus, ShoppingCart, ExternalLink, Check, RefreshCw } from 'lucide-react'
+import { Plus, ShoppingCart, ExternalLink, Check, RefreshCw, BookOpen } from 'lucide-react'
 import { nanoid } from 'nanoid'
-import type { ShoppingItem, ShoppingItemType } from '../lib/types'
-import { getAllShopping, saveShopping, deleteShopping, getAllGlass, saveGlass, getAllSupplies, saveSupply } from '../lib/db'
+import type { ShoppingItem, ShoppingItemType, Pattern } from '../lib/types'
+import { getAllShopping, saveShopping, deleteShopping, getAllGlass, saveGlass, getAllSupplies, saveSupply, getAllPatterns } from '../lib/db'
 import { Button } from '../components/ui/Button'
 import { Badge } from '../components/ui/Badge'
 import { Modal } from '../components/ui/Modal'
@@ -82,6 +82,10 @@ export function ShoppingPage() {
   const [editing, setEditing] = useState<ShoppingItem | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null)
   const [restockPrompt, setRestockPrompt] = useState<ShoppingItem | null>(null)
+  const [patternPickerOpen, setPatternPickerOpen] = useState(false)
+  const [patternPickerSearch, setPatternPickerSearch] = useState('')
+  const [allPatterns, setAllPatterns] = useState<Pattern[]>([])
+  const [importToast, setImportToast] = useState<string | null>(null)
 
   useEffect(() => { getAllShopping().then(setItems) }, [])
 
@@ -119,6 +123,30 @@ export function ShoppingPage() {
     setRestockPrompt(null)
   }
 
+  const openPatternPicker = async () => {
+    if (allPatterns.length === 0) setAllPatterns(await getAllPatterns())
+    setPatternPickerSearch('')
+    setPatternPickerOpen(true)
+  }
+
+  const handleImportFromPattern = async (pattern: Pattern) => {
+    if (pattern.glassPlan.length === 0) {
+      setImportToast(`"${pattern.name}" has no glass plan entries`)
+      setPatternPickerOpen(false)
+      setTimeout(() => setImportToast(null), 3000)
+      return
+    }
+    const now = new Date().toISOString()
+    for (const entry of pattern.glassPlan) {
+      await saveShopping({ id: nanoid(), name: entry.glassName, type: 'Glass', priority: 'Medium', purchased: false, notes: `From pattern: ${pattern.name}`, linkedId: entry.glassId, createdAt: now })
+    }
+    setItems(await getAllShopping())
+    setPatternPickerOpen(false)
+    const n = pattern.glassPlan.length
+    setImportToast(`Added ${n} item${n !== 1 ? 's' : ''} from "${pattern.name}"`)
+    setTimeout(() => setImportToast(null), 3000)
+  }
+
   const handleDelete = async (id: string) => {
     await deleteShopping(id)
     setItems(await getAllShopping())
@@ -148,9 +176,14 @@ export function ShoppingPage() {
             </p>
           )}
         </div>
-        <Button onClick={() => { setEditing(emptyItem()); setModalOpen(true) }}>
-          <Plus size={16} /> Add Item
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="secondary" onClick={openPatternPicker}>
+            <BookOpen size={16} /> From Pattern
+          </Button>
+          <Button onClick={() => { setEditing(emptyItem()); setModalOpen(true) }}>
+            <Plus size={16} /> Add Item
+          </Button>
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-3 mb-6">
@@ -189,6 +222,45 @@ export function ShoppingPage() {
 
       <ConfirmDialog open={!!deleteTarget} onClose={() => setDeleteTarget(null)} onConfirm={() => deleteTarget && handleDelete(deleteTarget)} title="Remove Item" message="Remove this item from your shopping list?" />
 
+      <Modal open={patternPickerOpen} onClose={() => setPatternPickerOpen(false)} title="Add from Pattern" size="md">
+        <div className="space-y-3">
+          <input
+            className="input"
+            placeholder="Search patterns..."
+            value={patternPickerSearch}
+            onChange={e => setPatternPickerSearch(e.target.value)}
+            autoFocus
+          />
+          {allPatterns.length === 0 ? (
+            <p className="text-sm text-gray-500 text-center py-4">No patterns in your library yet.</p>
+          ) : (
+            <div className="max-h-72 overflow-y-auto space-y-1.5 pr-1">
+              {allPatterns
+                .filter(p => !patternPickerSearch || p.name.toLowerCase().includes(patternPickerSearch.toLowerCase()))
+                .map(p => (
+                  <button
+                    key={p.id}
+                    className="w-full text-left bg-gray-50 dark:bg-gray-800 hover:bg-violet-50 dark:hover:bg-violet-900/30 border border-gray-200 dark:border-gray-700 hover:border-violet-300 dark:hover:border-violet-600 rounded-xl px-3 py-2.5 transition-colors"
+                    onClick={() => handleImportFromPattern(p)}
+                  >
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">{p.name}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                      {p.glassPlan.length > 0
+                        ? `${p.glassPlan.length} glass color${p.glassPlan.length !== 1 ? 's' : ''} in plan`
+                        : 'No glass plan'}
+                      {p.difficulty ? ` · ${p.difficulty}` : ''}
+                    </p>
+                  </button>
+                ))
+              }
+              {allPatterns.filter(p => !patternPickerSearch || p.name.toLowerCase().includes(patternPickerSearch.toLowerCase())).length === 0 && (
+                <p className="text-sm text-gray-500 text-center py-4">No patterns match your search.</p>
+              )}
+            </div>
+          )}
+        </div>
+      </Modal>
+
       {restockPrompt && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-gray-900 text-white rounded-2xl shadow-2xl px-4 py-3 flex items-center gap-3">
           <RefreshCw size={15} className="text-violet-400 shrink-0" />
@@ -200,6 +272,13 @@ export function ShoppingPage() {
             Mark In Stock
           </button>
           <button onClick={() => setRestockPrompt(null)} className="text-gray-400 hover:text-white shrink-0 text-lg leading-none">×</button>
+        </div>
+      )}
+
+      {importToast && (
+        <div className="fixed bottom-6 right-6 z-50 bg-gray-900 text-white rounded-xl px-4 py-2.5 shadow-xl flex items-center gap-2 pointer-events-none">
+          <BookOpen size={14} className="text-violet-400" />
+          <span className="text-sm">{importToast}</span>
         </div>
       )}
     </div>

@@ -17,19 +17,41 @@ const GLASS_TYPES: GlassType[] = ['Cathedral', 'Opalescent', 'Textured', 'Irides
 const PIECE_TYPES: GlassType[] = ['Bevel', 'Bevel Cluster']
 const STATUSES: GlassStatus[] = ['In Stock', 'Low', 'Out of Stock']
 
-// Approximate hue for sorting by color family
-const colorHintMap: Record<string, number> = {
-  red: 0, orange: 30, yellow: 55, amber: 40, gold: 50,
-  green: 120, teal: 170, cyan: 185, blue: 220, cobalt: 225, purple: 270,
-  violet: 280, pink: 330, magenta: 310, rose: 340, white: 361, clear: 362,
-  black: 363, grey: 364, gray: 364, brown: 25, tan: 35, ivory: 360,
-}
+// More-specific words first so "scarlet" beats "red", "cobalt" beats "blue", etc.
+const colorHintMap: [string, number][] = [
+  // Reds
+  ['crimson', 5], ['scarlet', 5], ['cherry', 8], ['garnet', 8], ['ruby', 10],
+  ['tomato', 8], ['coral', 15], ['salmon', 15], ['red', 0],
+  // Oranges / warm browns
+  ['terracotta', 20], ['bronze', 25], ['copper', 28], ['orange', 30],
+  ['brown', 22], ['ochre', 42], ['amber', 38], ['tan', 35],
+  // Yellows
+  ['chartreuse', 82], ['lemon', 62], ['lime', 80], ['gold', 50], ['yellow', 55],
+  // Greens
+  ['emerald', 140], ['forest', 115], ['olive', 100], ['sage', 130], ['mint', 148], ['green', 120],
+  // Teals / Cyans
+  ['turquoise', 175], ['teal', 170], ['aqua', 180], ['cyan', 185],
+  // Blues
+  ['periwinkle', 250], ['sapphire', 225], ['cerulean', 205], ['cobalt', 225],
+  ['indigo', 255], ['denim', 218], ['navy', 228], ['sky', 200], ['blue', 220],
+  // Purples / Violets
+  ['lavender', 262], ['purple', 270], ['violet', 280], ['grape', 286], ['plum', 292], ['mauve', 300],
+  // Pinks / Magentas
+  ['magenta', 310], ['fuchsia', 315], ['rose', 330], ['pink', 340],
+  // Neutrals
+  ['ivory', 355], ['cream', 356], ['white', 358], ['clear', 360],
+  ['silver', 363], ['grey', 362], ['gray', 362], ['black', 365],
+]
 function colorSortKey(item: GlassItem): number {
   const s = (item.colorName || item.name).toLowerCase()
-  for (const [word, hue] of Object.entries(colorHintMap)) {
-    if (s.includes(word)) return hue
+  let hue = 999
+  for (const [word, h] of colorHintMap) {
+    if (s.includes(word)) { hue = h; break }
   }
-  return 999
+  // Push "light/pale" slightly earlier and "dark/deep/rich" slightly later within the same hue band
+  const lightMod = /\b(light|pale|pastel|soft)\b/.test(s) ? -0.3
+    : /\b(dark|deep|rich|midnight)\b/.test(s) ? 0.5 : 0
+  return hue + lightMod
 }
 
 function emptyGlass(): GlassItem {

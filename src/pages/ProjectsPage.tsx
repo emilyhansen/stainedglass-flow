@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Plus, Search, FolderKanban, Calendar, ChevronRight, DollarSign, Layers, Package, X, Printer, BookOpen } from 'lucide-react'
+import { Plus, Search, FolderKanban, Calendar, ChevronRight, DollarSign, Layers, Package, X, Printer, BookOpen, CheckSquare } from 'lucide-react'
 import { nanoid } from 'nanoid'
 import { format } from 'date-fns'
 import type { Project, ProjectStatus, ProjectType, ProjectGlassUsage, ProjectSupplyUsage, GlassItem, Supply, Pattern, ShoppingItem } from '../lib/types'
@@ -12,6 +12,7 @@ import { ConfirmDialog } from '../components/ui/ConfirmDialog'
 import { ImageUpload } from '../components/ui/ImageUpload'
 import { TagInput } from '../components/ui/TagInput'
 import { Lightbox } from '../components/ui/Lightbox'
+import { BulkTagBar } from '../components/ui/BulkTagBar'
 
 const STATUSES: ProjectStatus[] = ['Planning', 'In Progress', 'On Hold', 'Completed']
 const TYPES: ProjectType[] = ['Panel', 'Suncatcher', 'Lamp', 'Mosaic', 'Repair', 'Box', 'Mirror Frame', 'Other']
@@ -34,13 +35,20 @@ const statusColors: Record<ProjectStatus, string> = {
   Completed: 'bg-green-100 text-green-700',
 }
 
-function ProjectCard({ item, onClick, onPhotoClick }: { item: Project; onClick: () => void; onPhotoClick?: (images: string[], index: number) => void }) {
+function ProjectCard({ item, onClick, onPhotoClick, selectMode, selected, onToggleSelect }: { item: Project; onClick: () => void; onPhotoClick?: (images: string[], index: number) => void; selectMode?: boolean; selected?: boolean; onToggleSelect?: () => void }) {
   const photos = [...(item.coverPhoto ? [item.coverPhoto] : []), ...item.progressPhotos]
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-violet-200 dark:hover:border-violet-700 transition-all cursor-pointer" onClick={onClick}>
+    <div className={`bg-white dark:bg-gray-900 rounded-2xl border shadow-sm hover:shadow-md transition-all cursor-pointer ${selected ? 'border-violet-400 ring-2 ring-violet-200' : 'border-gray-100 dark:border-gray-800 hover:border-violet-200 dark:hover:border-violet-700'}`} onClick={selectMode ? onToggleSelect : onClick}>
+      {selectMode && (
+        <div className="absolute top-2 left-2 z-10">
+          <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center ${selected ? 'bg-violet-500 border-violet-500' : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600'}`}>
+            {selected && <svg viewBox="0 0 10 10" className="w-3 h-3 text-white fill-none stroke-current stroke-2"><polyline points="1.5,5 4,8 8.5,2" /></svg>}
+          </div>
+        </div>
+      )}
       <div
         className="aspect-[16/10] bg-gradient-to-br from-gray-100 dark:from-gray-800 to-gray-200 dark:to-gray-700 rounded-t-2xl overflow-hidden relative"
-        onClick={photos.length > 0 && onPhotoClick ? e => { e.stopPropagation(); onPhotoClick(photos, 0) } : undefined}
+        onClick={!selectMode && photos.length > 0 && onPhotoClick ? e => { e.stopPropagation(); onPhotoClick(photos, 0) } : undefined}
       >
         {item.coverPhoto ? (
           <img src={item.coverPhoto} alt={item.name} className={`w-full h-full object-cover ${photos.length > 0 && onPhotoClick ? 'cursor-zoom-in' : ''}`} />
@@ -652,6 +660,8 @@ export function ProjectsPage() {
   const [lightboxIndex, setLightboxIndex] = useState(0)
   const [patternPickerOpen, setPatternPickerOpen] = useState(false)
   const [patternPickerSearch, setPatternPickerSearch] = useState('')
+  const [selectMode, setSelectMode] = useState(false)
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
   useEffect(() => {
     getAllProjects().then(setItems)
@@ -670,6 +680,42 @@ export function ProjectsPage() {
     const matchTag = !filterTag || i.tags.includes(filterTag)
     return matchQ && matchS && matchT && matchTag
   })
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds(prev => { const next = new Set(prev); if (next.has(id)) next.delete(id); else next.add(id); return next })
+  }
+
+  const handleBulkAddTag = async (tag: string) => {
+    for (const item of items.filter(i => selectedIds.has(i.id))) {
+      if (!item.tags.includes(tag)) await saveProject({ ...item, tags: [...item.tags, tag] })
+    }
+    setItems(await getAllProjects())
+    setSelectMode(false); setSelectedIds(new Set())
+  }
+
+  const handleBulkRemoveTag = async (tag: string) => {
+    for (const item of items.filter(i => selectedIds.has(i.id))) {
+      await saveProject({ ...item, tags: item.tags.filter(t => t !== tag) })
+    }
+    setItems(await getAllProjects())
+    setSelectMode(false); setSelectedIds(new Set())
+  }
+
+  const handleBulkDelete = async () => {
+    for (const id of selectedIds) await deleteProject(id)
+    setItems(await getAllProjects())
+    setSelectMode(false); setSelectedIds(new Set())
+  }
+
+  const handleBulkSetStatus = async (status: string) => {
+    for (const item of items.filter(i => selectedIds.has(i.id))) {
+      await saveProject({ ...item, status: status as ProjectStatus })
+    }
+    setItems(await getAllProjects())
+    setSelectMode(false); setSelectedIds(new Set())
+  }
+
+  const exitSelectMode = () => { setSelectMode(false); setSelectedIds(new Set()) }
 
   const handleSave = async (item: Project) => {
     const wasCompleted = editing?.status === 'Completed'
@@ -708,7 +754,13 @@ export function ProjectsPage() {
           <FolderKanban size={24} className="text-violet-600" />
           Projects
         </h1>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => { setSelectMode(m => !m); setSelectedIds(new Set()) }}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-sm font-medium transition-colors ${selectMode ? 'bg-violet-50 dark:bg-violet-900/30 border-violet-300 text-violet-700 dark:text-violet-400' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-violet-300 dark:hover:border-violet-600'}`}
+          >
+            <CheckSquare size={15} /> Select
+          </button>
           <Button variant="secondary" onClick={() => { setPatternPickerSearch(''); setPatternPickerOpen(true) }}>
             <BookOpen size={16} /> From Pattern
           </Button>
@@ -766,8 +818,17 @@ export function ProjectsPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filtered.map(item => (
             <div key={item.id} className="relative group">
-              <ProjectCard item={item} onClick={() => { setEditing(item); setModalOpen(true) }} onPhotoClick={(imgs, i) => { setLightboxImages(imgs); setLightboxIndex(i) }} />
-              <button className="absolute top-2 right-2 bg-white/90 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-sm text-base leading-none font-bold" onClick={e => { e.stopPropagation(); setDeleteTarget(item.id) }}>×</button>
+              <ProjectCard
+                item={item}
+                onClick={() => { if (!selectMode) { setEditing(item); setModalOpen(true) } }}
+                onPhotoClick={!selectMode ? (imgs, i) => { setLightboxImages(imgs); setLightboxIndex(i) } : undefined}
+                selectMode={selectMode}
+                selected={selectedIds.has(item.id)}
+                onToggleSelect={() => toggleSelect(item.id)}
+              />
+              {!selectMode && (
+                <button className="absolute top-2 right-2 bg-white/90 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-sm text-base leading-none font-bold" onClick={e => { e.stopPropagation(); setDeleteTarget(item.id) }}>×</button>
+              )}
             </div>
           ))}
         </div>
@@ -797,6 +858,24 @@ export function ProjectsPage() {
       />
 
       <Lightbox images={lightboxImages} initialIndex={lightboxIndex} open={lightboxImages.length > 0} onClose={() => setLightboxImages([])} />
+
+      {selectMode && selectedIds.size > 0 && (
+        <BulkTagBar
+          count={selectedIds.size}
+          onAddTag={handleBulkAddTag}
+          onRemoveTag={handleBulkRemoveTag}
+          onDelete={handleBulkDelete}
+          onSetStatus={handleBulkSetStatus}
+          statusOptions={STATUSES}
+          onCancel={exitSelectMode}
+        />
+      )}
+      {selectMode && selectedIds.size === 0 && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-gray-900 text-white rounded-2xl shadow-2xl px-4 py-3 flex items-center gap-3">
+          <span className="text-sm text-gray-300">Click projects to select them</span>
+          <button onClick={exitSelectMode} className="text-gray-400 hover:text-white"><X size={16} /></button>
+        </div>
+      )}
 
       <Modal open={patternPickerOpen} onClose={() => setPatternPickerOpen(false)} title="Choose a Pattern" size="md">
         <div className="space-y-3">
