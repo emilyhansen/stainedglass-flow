@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { Download, Upload, Settings, AlertTriangle, CheckCircle, FileSpreadsheet, Moon, Sun } from 'lucide-react'
+import { Download, Upload, Settings, AlertTriangle, CheckCircle, FileSpreadsheet, Moon, Sun, Bell } from 'lucide-react'
 import { exportAllData, importAllData, saveGlass, getAllGlass, getAllSupplies } from '../lib/db'
 import { Button } from '../components/ui/Button'
 import type { GlassItem, GlassType, GlassStatus } from '../lib/types'
@@ -21,6 +21,7 @@ export function SettingsPage() {
   const [csvError, setCsvError] = useState('')
   const [csvCount, setCsvCount] = useState(0)
   const [darkMode, setDarkMode] = useState(() => document.documentElement.classList.contains('dark'))
+  const [notifDays, setNotifDays] = useState(() => parseInt(localStorage.getItem('deadlineNotifDays') ?? '7', 10))
 
   const toggleDarkMode = () => {
     const next = !darkMode
@@ -176,6 +177,33 @@ export function SettingsPage() {
           >
             <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${darkMode ? 'translate-x-6' : 'translate-x-0'}`} />
           </button>
+        </div>
+      </div>
+
+      {/* Notifications */}
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm p-6 mb-5">
+        <div className="flex items-start gap-3 mb-4">
+          <Bell size={20} className="text-violet-500 shrink-0 mt-0.5" />
+          <div>
+            <h2 className="text-base font-semibold text-gray-900 dark:text-white mb-0.5">Deadline Notifications</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Get a browser notification when a project deadline is approaching. Shown once per session on app load.</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <label className="text-sm text-gray-700 dark:text-gray-300 shrink-0">Warn me</label>
+          <input
+            type="number"
+            min={1}
+            max={30}
+            className="input w-20 text-center"
+            value={notifDays}
+            onChange={e => {
+              const v = Math.max(1, Math.min(30, parseInt(e.target.value, 10) || 1))
+              setNotifDays(v)
+              localStorage.setItem('deadlineNotifDays', String(v))
+            }}
+          />
+          <label className="text-sm text-gray-700 dark:text-gray-300 shrink-0">days before deadline</label>
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Glass Stash — dev server launcher
+# StainedGlass Flow — dev server launcher
 # Usage:
 #   ./start.sh           — normal start
 #   ./start.sh --fresh   — clear Vite cache first (fixes missing CSS/styling)
@@ -13,7 +13,7 @@ if [[ "$1" == "--fresh" ]]; then
   rm -rf node_modules/.vite
 fi
 
-echo "🔮 Starting Glass Stash..."
+echo "🔮 Starting StainedGlass Flow..."
 echo "   → http://localhost:5173"
 echo ""
 echo "   Tip: if CSS looks broken, run:  ./start.sh --fresh"

@@ -20,3 +20,32 @@
     @apply border-gray-600 bg-gray-800 text-white placeholder-gray-500 focus:border-violet-400 focus:ring-violet-400;
   }
 }
+
+@media print {
+  aside,
+  header,
+  .fixed,
+  [role="dialog"] {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  main {
+    width: 100% !important;
+    overflow: visible !important;
+  }
+  * {
+    box-shadow: none !important;
+  }
+  .rounded-2xl {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 1px solid #e5e7eb !important;
+  }
+  /* Reveal delete/action buttons are hidden in print since they're opacity-0 normally */
+  .opacity-0 {
+    display: none !important;
+  }
+}

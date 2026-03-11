@@ -650,6 +650,8 @@ export function ProjectsPage() {
   const [deductProject, setDeductProject] = useState<Project | null>(null)
   const [lightboxImages, setLightboxImages] = useState<string[]>([])
   const [lightboxIndex, setLightboxIndex] = useState(0)
+  const [patternPickerOpen, setPatternPickerOpen] = useState(false)
+  const [patternPickerSearch, setPatternPickerSearch] = useState('')
 
   useEffect(() => {
     getAllProjects().then(setItems)
@@ -706,9 +708,14 @@ export function ProjectsPage() {
           <FolderKanban size={24} className="text-violet-600" />
           Projects
         </h1>
-        <Button onClick={() => { setEditing(emptyProject()); setModalOpen(true) }}>
-          <Plus size={16} /> New Project
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="secondary" onClick={() => { setPatternPickerSearch(''); setPatternPickerOpen(true) }}>
+            <BookOpen size={16} /> From Pattern
+          </Button>
+          <Button onClick={() => { setEditing(emptyProject()); setModalOpen(true) }}>
+            <Plus size={16} /> New Project
+          </Button>
+        </div>
       </div>
 
       {items.length > 0 && (
@@ -790,6 +797,50 @@ export function ProjectsPage() {
       />
 
       <Lightbox images={lightboxImages} initialIndex={lightboxIndex} open={lightboxImages.length > 0} onClose={() => setLightboxImages([])} />
+
+      <Modal open={patternPickerOpen} onClose={() => setPatternPickerOpen(false)} title="Choose a Pattern" size="md">
+        <div className="space-y-3">
+          <input
+            className="input"
+            placeholder="Search patterns..."
+            value={patternPickerSearch}
+            onChange={e => setPatternPickerSearch(e.target.value)}
+            autoFocus
+          />
+          {allPatterns.length === 0 ? (
+            <p className="text-sm text-gray-500 text-center py-4">No patterns in your library yet.</p>
+          ) : (
+            <div className="max-h-72 overflow-y-auto space-y-1.5 pr-1">
+              {allPatterns
+                .filter(p => !patternPickerSearch || p.name.toLowerCase().includes(patternPickerSearch.toLowerCase()))
+                .map(p => (
+                  <button
+                    key={p.id}
+                    className="w-full text-left bg-gray-50 dark:bg-gray-800 hover:bg-violet-50 dark:hover:bg-violet-900/30 border border-gray-200 dark:border-gray-700 hover:border-violet-300 dark:hover:border-violet-600 rounded-xl px-3 py-2.5 transition-colors"
+                    onClick={() => {
+                      const proj = emptyProject()
+                      proj.patternId = p.id
+                      proj.patternName = p.name
+                      proj.glassUsed = p.glassPlan.map(e => ({ glassId: e.glassId, glassName: e.glassName, amount: '', multiplier: 1 }))
+                      setEditing(proj)
+                      setPatternPickerOpen(false)
+                      setModalOpen(true)
+                    }}
+                  >
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">{p.name}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                      {[p.style, p.difficulty, p.pieceCount ? `${p.pieceCount} pieces` : null].filter(Boolean).join(' · ')}
+                    </p>
+                  </button>
+                ))
+              }
+              {allPatterns.filter(p => !patternPickerSearch || p.name.toLowerCase().includes(patternPickerSearch.toLowerCase())).length === 0 && (
+                <p className="text-sm text-gray-500 text-center py-4">No patterns match your search.</p>
+              )}
+            </div>
+          )}
+        </div>
+      </Modal>
     </div>
   )
 }

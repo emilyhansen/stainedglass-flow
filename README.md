@@ -4,17 +4,17 @@ A personal studio organizer for stained glass artists. Track your glass inventor
 
 ## Features
 
-- **Glass Inventory** — Log every piece of glass with color, type, manufacturer, dimensions, cost, and photos. Toggle between a card view and a compact color-sorted swatch grid. Tracks price history over time and shows which projects each sheet was used in.
+- **Glass Inventory** — Log every piece of glass with color, type, manufacturer, dimensions, cost, and photos. Toggle between a card view and a compact color-sorted swatch grid. Tracks price history over time and shows which projects each sheet was used in. Bulk-select cards to add/remove tags or change status across multiple sheets at once.
 - **Patterns** — Catalog your pattern collection with style, difficulty, piece count, line drawings, photos, and a glass color plan. Tracks status from Wish List through Made, and shows how many projects have used each pattern.
-- **Projects** — Manage active and completed work with a full journal, progress photos, deadline tracking, a materials cost calculator, and a commission pricing tool (markup + labor rate + hours = suggested price).
+- **Projects** — Manage active and completed work with a full journal, progress photos, deadline tracking, a materials cost calculator, and a commission pricing tool (markup + labor rate + hours = suggested price). Start a new project from a pattern template to pre-fill the glass plan.
 - **Supplies** — Inventory your copper foil, solder, flux, came, tools, and other consumables, grouped by category with reorder thresholds.
-- **Shopping List** — Capture items to buy with priority, estimated cost, and a purchased toggle. Items link back to glass or supply records.
+- **Shopping List** — Capture items to buy with priority, estimated cost, and a purchased toggle. Items link back to glass or supply records. Marking a linked item as purchased prompts you to also mark the inventory record as In Stock.
 - **Suppliers** — Contact list with star ratings, specialty tags, website links, and type filter (local / online).
 - **Stats & Reports** — Visual dashboards: glass by type, inventory status, project progress, completions per month, most-used glass, tag overview. No chart library — pure CSS.
 - **PDF / Image Converter** — Upload a PDF, PNG, or JPG and convert it to high-resolution PNG and/or traced SVG. Ideal for resizing patterns for vinyl cutters (Cricut, Silhouette) or light tables. Presets for line drawings and photos; custom tracer controls.
 - **Deadlines** — Active projects grouped by urgency: overdue, this week, this month, later.
 - **Search** — Full-text search (⌘K) across glass, patterns, projects, and supplies from anywhere in the app.
-- **Settings & Backup** — Export all data as JSON; restore from a JSON backup; CSV import/export for glass and supplies inventory.
+- **Settings & Backup** — Export all data as JSON; restore from a JSON backup; CSV import/export for glass and supplies inventory. Configure how many days before a deadline to trigger a browser notification.
 - **Dark Mode** — Full dark mode with no flash on load; toggle in Settings.
 
 ## Tech Stack
